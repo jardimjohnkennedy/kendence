@@ -16,6 +16,7 @@
             background-repeat: no-repeat;
             background-position: center;
             background-attachment: fixed;
+            overflow-y: auto; /* Permite rolagem em toda a página */
         }
         .splash-screen {
             display: flex;
@@ -53,6 +54,9 @@
             justify-content: center;
             padding: 1.5rem;
             min-height: 100vh;
+            max-width: 42rem; /* Adiciona largura máxima para evitar esticamento */
+            margin-left: auto;
+            margin-right: auto;
         }
         .main-content.visible {
             display: flex;
@@ -91,20 +95,20 @@
             <img src="https://lh3.googleusercontent.com/d/1VWxltnrjX7tvAtukRy_54UYD4MGGuPxk" alt="Brasão do Kendence F.C." class="w-full object-cover mt-0">
         </header>
 
-        <main class="w-full p-15 mt-10" id="mainSection">
+        <main class="w-full p-6 mt-auto" id="mainSection">
             <!-- Botões Personalizados -->
-            <div id="menuButtons" class="grid grid-cols-2 gap-10">
-                <button onclick="showSection('players')" class="btn-base bg-black hover:bg-gray-800 text-white rounded-full text-xl">
-                    🙋Jogadores
+            <div id="menuButtons" class="flex flex-row justify-between w-full">
+                <button onclick="showSection('players')" class="btn-base bg-black hover:bg-gray-800 text-white font-bold rounded-full text-xl border-4 border-black">
+                    JOGADORES
                 </button>
-                <button onclick="showSection('history')" class="btn-base bg-black hover:bg-gray-800 text-white rounded-full text-xl">
-                    🎖️História
+                <button onclick="showSection('history')" class="btn-base bg-black hover:bg-gray-800 text-white font-bold rounded-full text-xl border-4 border-black">
+                    HISTÓRIA
                 </button>
-                <button onclick="showSection('social')" class="btn-base bg-black hover:bg-gray-800 text-white rounded-full text-xl">
-                    📱Redes Sociais
+                <button onclick="showSection('social')" class="btn-base bg-black hover:bg-gray-800 text-white font-bold rounded-full text-xl border-4 border-black">
+                    REDES SOCIAIS
                 </button>
-                <button onclick="showSection('gallery')" class="btn-base bg-black hover:bg-gray-800 text-white rounded-full text-xl">
-                    📸Galeria 
+                <button onclick="showSection('gallery')" class="btn-base bg-black hover:bg-gray-800 text-white font-bold rounded-full text-xl border-4 border-black">
+                    GALERIA 
                 </button>
             </div>
             <div class="flex justify-center mt-5" id="newsButtonContainer">
@@ -228,7 +232,7 @@
                                     <!-- Goleiros -->
                                     <h3 class="text-lg font-bold mt-4">Goleiros</h3>
                                     <a href="https://www.instagram.com/lk_pacini?igsh=dWdrcGVhdDIwOG95&utm_source=qr" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://placehold.co/32x32/gray/white?text=LC" alt="Lucas" class="w-11 h-11 rounded-full mr-2">
+                                        <img src="https://lh3.googleusercontent.com/d/1Atpzw-JGpITkLgl0LwAA4wxOt7vyCOY-" alt="Lukas Pacini" class="w-11 h-11 rounded-full mr-2">
                                         Lukas Pacini
                                     </a>
                                     <a href="https://www.instagram.com/_pedro_antoniio/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
@@ -343,6 +347,9 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                                     <a href="https://www.instagram.com/kendence2015/?__pwa=1#" target="_blank" class="block bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
                                         Instagram
                                     </a>
+                                    <button onclick="showSection('user-login')" class="block w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg text-center">
+                                        Usuário
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -383,17 +390,63 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                         </div>
                     `;
                     break;
+                case 'user-login':
+                    contentHTML = `
+                        <div class="relative w-full">
+                            <button onclick="showMenu()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
+                            <div class="flex flex-col items-center">
+                                <h2 class="text-xl font-bold mb-4 text-center mt-10">Acesso Restrito</h2>
+                                <form onsubmit="handleLogin(event)" class="space-y-4 w-full">
+                                    <input type="text" id="username" placeholder="Login" class="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <input type="password" id="password" placeholder="Senha" class="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg">Entrar</button>
+                                </form>
+                                <div id="loginMessage" class="mt-4 text-center"></div>
+                            </div>
+                        </div>
+                    `;
+                    break;
             }
 
             sectionsContainer.innerHTML = contentHTML;
         }
+
+        function handleLogin(event) {
+            event.preventDefault(); // Impede o envio do formulário
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const loginMessage = document.getElementById('loginMessage');
+            
+            // ATENÇÃO: Essa é uma demonstração NÃO SEGURA.
+            // Em uma aplicação real, você deve usar um serviço de autenticação como o Firebase Auth.
+            const users = {
+                "AYOSHI": {
+                    password: "1985",
+                    link: "https://drive.google.com/drive/folders/1GOJXlM07IoV9DaklUvkYb9VaB0zww4nX?usp=drive_link"
+                },
+                "KENDENCE": {
+                    password: "1235",
+                    link: "https://drive.google.com/drive/folders/1wG2KfMMBXlPYr-wiX7xfO3YotGCEACzM"
+                },
+                "andersomyoshi": {
+                    password: "#Alfmoto1",
+                    link: "https://drive.google.com/drive/folders/1OhaT_CUG3-C_mqvfgiKn6t3eOEI9KxUY?usp=sharing"
+                }
+            };
+
+            if (users[username] && users[username].password === password) {
+                loginMessage.innerHTML = `<p class="text-green-500 font-bold">Acesso liberado!</p><a href="${users[username].link}" target="_blank" class="block mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg text-center">Acessar conteúdo</a>`;
+            } else {
+                loginMessage.innerHTML = '<p class="text-red-500 font-bold">Login ou senha incorretos.</p>';
+            }
+        }
+
         function shareNews(title, text, imageUrl) {
             if (navigator.share) {
-                // Adiciona o URL da imagem ao objeto de compartilhamento
                 navigator.share({
                     title: title,
                     text: text,
-                    url: imageUrl // A URL da imagem será passada aqui para que as plataformas a usem como miniatura
+                    url: imageUrl
                 }).then(() => {
                     console.log('Notícia compartilhada com sucesso!');
                 }).catch((error) => {
