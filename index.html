@@ -62,7 +62,7 @@
             display: flex;
         }
         .btn-base {
-            @apply flex flex-col items-center justify-center font-bold py-10 px-10 rounded-full shadow-xl transition-transform transform hover:scale-110 active:scale-95 text-white bg-black;
+            @apply flex flex-col items-center justify-center font-bold py-10 px-10 rounded-full shadow-xl transition-transform transform hover:scale-110 active:scale-95 text-white;
         }
         .section-container {
             background-color: rgba(0, 0, 0, 0.6);
@@ -97,20 +97,29 @@
 
         <main class="w-full p-6 mt-auto" id="mainSection">
             <!-- Botões Personalizados -->
-            <div id="menuButtons" class="flex flex-row justify-between w-full">
-                <button onclick="showSection('players')" class="btn-base bg-black hover:bg-gray-800 text-white font-bold rounded-full text-xl border-4 border-black">
+            <div id="menuButtons" class="flex flex-col items-center w-full">
+                <!-- Botão Menu - Sempre visível -->
+                <button onclick="toggleMenu()" class="btn-base bg-black hover:bg-gray-800 text-white font-bold rounded-full text-sm md:text-xl">
+                    MENU
+                </button>
+            </div>
+            
+            <!-- Botões de navegação - Ocultos por padrão -->
+            <div id="navButtons" class="flex flex-col items-center space-y-4 w-full mt-5 hidden">
+                <button onclick="showSection('players')" class="btn-base bg-transparent hover:bg-gray-800 text-white font-bold rounded-full text-sm md:text-xl">
                     JOGADORES
                 </button>
-                <button onclick="showSection('history')" class="btn-base bg-black hover:bg-gray-800 text-white font-bold rounded-full text-xl border-4 border-black">
+                <button onclick="showSection('history')" class="btn-base bg-transparent hover:bg-gray-800 text-white font-bold rounded-full text-sm md:text-xl">
                     HISTÓRIA
                 </button>
-                <button onclick="showSection('social')" class="btn-base bg-black hover:bg-gray-800 text-white font-bold rounded-full text-xl border-4 border-black">
+                <button onclick="showSection('social')" class="btn-base bg-transparent hover:bg-gray-800 text-white font-bold rounded-full text-sm md:text-xl">
                     REDES SOCIAIS
                 </button>
-                <button onclick="showSection('gallery')" class="btn-base bg-black hover:bg-gray-800 text-white font-bold rounded-full text-xl border-4 border-black">
+                <button onclick="showSection('gallery')" class="btn-base bg-transparent hover:bg-gray-800 text-white font-bold rounded-full text-sm md:text-xl">
                     GALERIA 
                 </button>
             </div>
+            
             <div class="flex justify-center mt-5" id="newsButtonContainer">
                 
             </div>
@@ -165,16 +174,23 @@
 
     <script>
         function showMenu() {
-            const menuButtons = document.getElementById('menuButtons');
+            const navButtons = document.getElementById('navButtons');
             const sectionsContainer = document.getElementById('sectionsContainer');
-            const mainMessage = document.querySelector('main p');
             const newsSection = document.getElementById('newsSection');
 
-            menuButtons.classList.remove('hide-on-click');
+            navButtons.classList.remove('hide-on-click');
             newsSection.classList.remove('hide-on-click');
-            mainMessage.classList.remove('hide-on-click');
             sectionsContainer.innerHTML = '';
             sectionsContainer.classList.add('hidden');
+        }
+
+        function toggleMenu() {
+            const navButtons = document.getElementById('navButtons');
+            const menuButtons = document.getElementById('menuButtons');
+            const newsSection = document.getElementById('newsSection');
+            
+            navButtons.classList.toggle('hidden');
+            newsSection.classList.toggle('hidden');
         }
 
         window.onload = function() {
@@ -188,15 +204,12 @@
         };
 
         function showSection(section) {
-            const menuButtons = document.getElementById('menuButtons');
+            const navButtons = document.getElementById('navButtons');
             const sectionsContainer = document.getElementById('sectionsContainer');
-            const mainMessage = document.querySelector('main p');
             const newsSection = document.getElementById('newsSection');
 
-            menuButtons.classList.add('hide-on-click');
+            navButtons.classList.add('hide-on-click');
             newsSection.classList.add('hide-on-click');
-            mainMessage.classList.add('hide-on-click');
-
             sectionsContainer.innerHTML = '';
             sectionsContainer.classList.remove('hidden');
 
