@@ -43,12 +43,7 @@
         .image-container {
             width: 150px;
             height: 150px;
-            animation: blink 1.5s infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
+            position: relative;
         }
         .blinking-logo {
             width: 100%;
@@ -156,7 +151,8 @@
                 <h2 class="text-xl font-bold mb-4 text-center mt-5">Notícias</h2>
                 <div class="space-y-6 w-full">
                     <!-- MODELO DE NOTÍCIA -->
-                    <div class="bg-gray-800 p-4 rounded-lg shadow-md">
+                    <div class="bg-gray-800 p-4 rounded-lg shadow-md relative">
+                        <span class="absolute top-2 right-2 text-xs text-gray-400">18/09/2025</span>
                         <h3 class="text-lg font-bold mb-2">Campeonato PURO SANGUE</h3>
                         <!-- Para adicionar sua foto, substitua a URL abaixo -->
                         <img src="https://lh3.googleusercontent.com/d/1F4UyG1aHTKriPJPXeAn7lfEEYmzwYWdd" alt="Foto da Notícia" class="w-full h-auto rounded-lg mb-2">
@@ -168,7 +164,8 @@
                         </button>
                     </div>
 
-                        <div class="bg-gray-800 p-4 rounded-lg shadow-md">
+                        <div class="bg-gray-800 p-4 rounded-lg shadow-md relative">
+                        <span class="absolute top-2 right-2 text-xs text-gray-400">15/09/2025</span>
                         <h3 class="text-lg font-bold mb-2">Seja um patrocinador do Kendence F.C.!</h3>
                         <!-- Para adicionar sua foto, substitua a URL abaixo -->
                         <img src="https://lh3.googleusercontent.com/d/1gQnw3v9ULNRkp53NLw2Yt9RJ7icVI9DH" alt="Foto da Notícia" class="w-full h-auto rounded-lg mb-2">
@@ -177,6 +174,24 @@
                             Marcação da sua empresa em cada publicação, Presença junto com a nossa torcida e nossos jogadores
 
 👉 Venha fazer parte da nossa história! Entre em contato e seja um patrocinador oficial do Kendence F.C.
+                        </p>
+                        <button onclick="shareNews('Seja um patrocinador do Kendence F.C.!', 'Apoiando o Kendence Futebol Clube, você garante: Divulgação da sua marca em nossos posts no Instagram, Sua logo estampada em todos os cartazes oficiais do time, Marcação da sua empresa em cada publicação, Presença junto com a nossa torcida e nossos jogadores.', 'https://andersomyoshi-a11y.github.io/kendence/')" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                            Compartilhar
+                        </button>
+
+                          <div class="bg-gray-800 p-4 rounded-lg shadow-md relative">
+                        <span class="absolute top-2 right-2 text-xs text-gray-400">05/09/2025</span>
+                        <h3 class="text-lg font-bold mb-2">Campeonato Puro Sangue 2025</h3>
+                        <!-- Para adicionar sua foto, substitua a URL abaixo -->
+                        <img src="https://lh3.googleusercontent.com/d/1Nzh2MFZI5bpOLzO9D9JFsfXRG5FnDhM7" alt="Foto da Notícia" class="w-full h-auto rounded-lg mb-2">
+                        <p class="text-gray-300">
+A cidade de Ibiporã se prepara para receber a primeira fase do tão aguardado Campeonato Puro Sangue 2025, um torneio que promete grandes emoções e rivalidades intensas. Todos os olhos estão voltados para o KENMDENCE F.C, que inicia sua jornada no campeonato com uma série de quatro jogos cruciais. A equipe, conhecida por sua estratégia agressiva e jogadores habilidosos, busca começar com o pé direito para garantir uma vaga na próxima etapa.
+
+O primeiro desafio do KENMDENCE F.C será contra o time da casa, o D"Fiori F.C. A partida, que promete ser um teste de resistência e habilidade, acontecerá em um clima de muita pressão. Em seguida, a equipe enfrentará o Juventus F.C. O confronto será uma oportunidade para o KENMDENCE F.C mostrar sua força contra um adversário de alto nível.
+
+O terceiro jogo colocará o KENMDENCE F.C frente a frente com o A.E. Altitude. A partida exigirá paciência e inteligência tática, e o time que souber explorar os erros do adversário terá grandes chances de sair vitorioso. Por fim, o KENMDENCE F.C encerrará a primeira fase do campeonato contra o Inter Santa Paula, um confronto que pode definir o destino da equipe na competição. A partida será decisiva e a equipe deve entrar em campo com determinação total para garantir a classificação.
+
+A primeira fase do campeonato será um verdadeiro teste de fogo para o KENMDENCE F.C. O time, com sua mescla de jovens talentos e jogadores experientes, busca mostrar que é um dos grandes favoritos ao título. A jornada não será fácil, mas a equipe está confiante e pronta para enfrentar qualquer desafio que venha pela frente.
                         </p>
                         <button onclick="shareNews('Seja um patrocinador do Kendence F.C.!', 'Apoiando o Kendence Futebol Clube, você garante: Divulgação da sua marca em nossos posts no Instagram, Sua logo estampada em todos os cartazes oficiais do time, Marcação da sua empresa em cada publicação, Presença junto com a nossa torcida e nossos jogadores.', 'https://andersomyoshi-a11y.github.io/kendence/')" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                             Compartilhar
