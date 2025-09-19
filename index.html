@@ -57,7 +57,7 @@
             display: none;
         }
         .main-content {
-            display: none;
+            display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -66,6 +66,7 @@
             max-width: 85rem;
             margin-left: auto;
             margin-right: auto;
+            display: none;
         }
         .main-content.visible {
             display: flex;
@@ -108,7 +109,7 @@
     </div>
 
     <!-- Conteúdo Principal -->
-    <div id="mainContent" class="main-content min-h-screen flex-grow mx-auto p-6 overflow-y-auto">
+    <div id="mainContent" class="main-content min-h-screen flex-grow mx-auto p-6 overflow-y-auto visible">
         <header class="w-full text-white text-center">
             <img src="https://lh3.googleusercontent.com/d/1VWxltnrjX7tvAtukRy_54UYD4MGGuPxk" alt="Brasão do Kendence F.C." class="w-full object-cover mt-0">
         </header>
@@ -136,8 +137,8 @@
                 <button onclick="showSection('gallery')" class="btn-base bg-transparent hover:bg-gray-800 text-white font-bold rounded-full text-sm md:text-xl">
                     GALERIA 
                 </button>
-                <button onclick="backToNewsScreen()" class="btn-base bg-transparent hover:bg-gray-800 text-white font-bold rounded-full text-sm md:text-xl">
-                    NOTICIA 
+                <button onclick="showSection('fullNews')" class="btn-base bg-transparent hover:bg-gray-800 text-white font-bold rounded-full text-sm md:text-xl">
+                    NOTICIAS
                 </button>
             </div>
             
@@ -149,55 +150,17 @@
             <!-- Seção de Notícias - Agora visível por padrão -->
             <div id="newsSection" class="mt-8 p-4 rounded-lg shadow-inner section-container overflow-y-auto w-full h-full">
                 <h2 class="text-xl font-bold mb-4 text-center mt-5">Notícias</h2>
-                <div class="space-y-6 w-full">
-                    <!-- MODELO DE NOTÍCIA -->
-                    <div class="bg-gray-800 p-4 rounded-lg shadow-md relative">
-                        <span class="absolute top-2 right-2 text-xs text-gray-400">18/09/2025</span>
-                        <h3 class="text-lg font-bold mb-2">Campeonato PURO SANGUE</h3>
-                        <!-- Para adicionar sua foto, substitua a URL abaixo -->
-                        <img src="https://lh3.googleusercontent.com/d/1F4UyG1aHTKriPJPXeAn7lfEEYmzwYWdd" alt="Foto da Notícia" class="w-full h-auto rounded-lg mb-2">
-                        <p class="text-gray-300">
-                            Após a vitória de 2 a 1 contra o D'Fiori, o Kendence se prepara para o segundo jogo contra o Juventus F.C, no Campeonato Puro Sangue 2025 em Ibiporã.
-                        </p>
-                        <button onclick="shareNews('Campeonato PURO SANGUE', 'Após a vitória de 2 a 1 contra o D\'Fiori, o Kendence se prepara para o segundo jogo contra o Juventus F.C, no Campeonato Puro SANGUE 2025 em Ibiporã.', 'https://andersomyoshi-a11y.github.io/kendence/')" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                            Compartilhar
-                        </button>
-                    </div>
-
-                        <div class="bg-gray-800 p-4 rounded-lg shadow-md relative">
-                        <span class="absolute top-2 right-2 text-xs text-gray-400">15/09/2025</span>
-                        <h3 class="text-lg font-bold mb-2">Seja um patrocinador do Kendence F.C.!</h3>
-                        <!-- Para adicionar sua foto, substitua a URL abaixo -->
-                        <img src="https://lh3.googleusercontent.com/d/1gQnw3v9ULNRkp53NLw2Yt9RJ7icVI9DH" alt="Foto da Notícia" class="w-full h-auto rounded-lg mb-2">
-                        <p class="text-gray-300">
-                            Apoiando o Kendence Futebol Clube, você garante: Divulgação da sua marca em nossos posts no Instagram, Sua logo estampada em todos os cartazes oficiais do time, 
-                            Marcação da sua empresa em cada publicação, Presença junto com a nossa torcida e nossos jogadores
-
-👉 Venha fazer parte da nossa história! Entre em contato e seja um patrocinador oficial do Kendence F.C.
-                        </p>
-                        <button onclick="shareNews('Seja um patrocinador do Kendence F.C.!', 'Apoiando o Kendence Futebol Clube, você garante: Divulgação da sua marca em nossos posts no Instagram, Sua logo estampada em todos os cartazes oficiais do time, Marcação da sua empresa em cada publicação, Presença junto com a nossa torcida e nossos jogadores.', 'https://andersomyoshi-a11y.github.io/kendence/')" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                            Compartilhar
-                        </button>
-
-                          <div class="bg-gray-800 p-4 rounded-lg shadow-md relative">
-                        <span class="absolute top-2 right-2 text-xs text-gray-400">05/09/2025</span>
-                        <h3 class="text-lg font-bold mb-2">Campeonato Puro Sangue 2025</h3>
-                        <!-- Para adicionar sua foto, substitua a URL abaixo -->
-                        <img src="https://lh3.googleusercontent.com/d/1Nzh2MFZI5bpOLzO9D9JFsfXRG5FnDhM7" alt="Foto da Notícia" class="w-full h-auto rounded-lg mb-2">
-                        <p class="text-gray-300">
-A cidade de Ibiporã se prepara para receber a primeira fase do tão aguardado Campeonato Puro Sangue 2025, um torneio que promete grandes emoções e rivalidades intensas. Todos os olhos estão voltados para o KENMDENCE F.C, que inicia sua jornada no campeonato com uma série de quatro jogos cruciais. A equipe, conhecida por sua estratégia agressiva e jogadores habilidosos, busca começar com o pé direito para garantir uma vaga na próxima etapa.
-
-O primeiro desafio do KENMDENCE F.C será contra o time da casa, o D"Fiori F.C. A partida, que promete ser um teste de resistência e habilidade, acontecerá em um clima de muita pressão. Em seguida, a equipe enfrentará o Juventus F.C. O confronto será uma oportunidade para o KENMDENCE F.C mostrar sua força contra um adversário de alto nível.
-
-O terceiro jogo colocará o KENMDENCE F.C frente a frente com o A.E. Altitude. A partida exigirá paciência e inteligência tática, e o time que souber explorar os erros do adversário terá grandes chances de sair vitorioso. Por fim, o KENMDENCE F.C encerrará a primeira fase do campeonato contra o Inter Santa Paula, um confronto que pode definir o destino da equipe na competição. A partida será decisiva e a equipe deve entrar em campo com determinação total para garantir a classificação.
-
-A primeira fase do campeonato será um verdadeiro teste de fogo para o KENMDENCE F.C. O time, com sua mescla de jovens talentos e jogadores experientes, busca mostrar que é um dos grandes favoritos ao título. A jornada não será fácil, mas a equipe está confiante e pronta para enfrentar qualquer desafio que venha pela frente.
-                        </p>
-                        <button onclick="shareNews('Seja um patrocinador do Kendence F.C.!', 'Apoiando o Kendence Futebol Clube, você garante: Divulgação da sua marca em nossos posts no Instagram, Sua logo estampada em todos os cartazes oficiais do time, Marcação da sua empresa em cada publicação, Presença junto com a nossa torcida e nossos jogadores.', 'https://andersomyoshi-a11y.github.io/kendence/')" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                            Compartilhar
-                        </button>
-                    </div>
-                    <!-- Para adicionar mais notícias, copie e cole o bloco acima -->
+                <div class="space-y-6 w-full" id="latestNews">
+                    <!-- Conteúdo será injetado aqui pelo JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Seção de Notícias completa - Oculta por padrão -->
+            <div id="fullNewsSection" class="mt-8 p-4 rounded-lg shadow-inner section-container overflow-y-auto w-full h-full hidden">
+                 <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
+                <h2 class="text-xl font-bold mb-4 text-center mt-5">Notícias Completas</h2>
+                <div class="space-y-6 w-full" id="fullNews">
+                     <!-- Conteúdo será injetado aqui pelo JavaScript -->
                 </div>
             </div>
         </main>
@@ -214,29 +177,67 @@ A primeira fase do campeonato será um verdadeiro teste de fogo para o KENMDENCE
     </div>
 
     <script>
+        const newsData = [
+            {
+                date: '2025-09-18',
+                title: 'Campeonato PURO SANGUE',
+                image: 'https://lh3.googleusercontent.com/d/1F4UyG1aHTKriPJPXeAn7lfEEYmzwYWdd',
+                text: 'Após a vitória de 2 a 1 contra o D\'Fiori, o Kendence se prepara para o segundo jogo contra o Juventus F.C, no Campeonato Puro Sangue 2025 em Ibiporã.'
+            },
+            {
+                date: '2025-09-15',
+                title: 'Seja um patrocinador do Kendence F.C.!',
+                image: 'https://lh3.googleusercontent.com/d/1gQnw3v9ULNRkp53NLw2Yt9RJ7icVI9DH',
+                text: 'Apoiando o Kendence Futebol Clube, você garante: Divulgação da sua marca em nossos posts no Instagram, Sua logo estampada em todos os cartazes oficiais do time, Marcação da sua empresa em cada publicação, Presença junto com a nossa torcida e nossos jogadores. 👉 Venha fazer parte da nossa história! Entre em contato e seja um patrocinador oficial do Kendence F.C.'
+            },
+            {
+                date: '2025-09-05',
+                title: 'Campeonato Puro Sangue 2025',
+                image: 'https://lh3.googleusercontent.com/d/1Nzh2MFZI5bpOLzO9D9JFsfXRG5FnDhM7',
+                text: 'A cidade de Ibiporã se prepara para receber a primeira fase do tão aguardado Campeonato Puro Sangue 2025, um torneio que promete grandes emoções e rivalidades intensas. Todos os olhos estão voltados para o KENMDENCE F.C, que inicia sua jornada no campeonato com uma série de quatro jogos cruciais. A equipe, conhecida por sua estratégia agressiva e jogadores habilidosos, busca começar com o pé direito para garantir uma vaga na próxima etapa. O primeiro desafio do KENMDENCE F.C será contra o time da casa, o D"Fiori F.C. A partida, que promete ser um teste de resistência e habilidade, acontecerá em um clima de muita pressão. Em seguida, a equipe enfrentará o Juventus F.C. O confronto será uma oportunidade para o KENMDENCE F.C mostrar sua força contra um adversário de alto nível. O terceiro jogo colocará o KENMDENCE F.C frente a frente com o A.E. Altitude. A partida exigirá paciência e inteligência tática, e o time que souber explorar os erros do adversário terá grandes chances de sair vitorioso. Por fim, o KENMDENCE F.C encerrará a primeira fase do campeonato contra o Inter Santa Paula, um confronto que pode definir o destino da equipe na competição. A partida será decisiva e a equipe deve entrar em campo com determinação total para garantir a classificação. A primeira fase do campeonato será um verdadeiro teste de fogo para o KENMDENCE F.C. O time, com sua mescla de jovens talentos e jogadores experientes, busca mostrar que é um dos grandes favoritos ao título. A jornada não será fácil, mas a equipe está confiante e pronta para enfrentar qualquer desafio que venha pela frente.'
+            },
+        ];
+
+        function renderNews(containerId, count) {
+            const container = document.getElementById(containerId);
+            const sortedNews = newsData.sort((a, b) => new Date(b.date) - new Date(a.date));
+            const newsToDisplay = count ? sortedNews.slice(0, count) : sortedNews;
+
+            container.innerHTML = newsToDisplay.map(news => `
+                <div class="bg-gray-800 p-4 rounded-lg shadow-md relative">
+                    <span class="absolute top-2 right-2 text-xs text-gray-400">${news.date.split('-').reverse().join('/')}</span>
+                    <h3 class="text-lg font-bold mb-2">${news.title}</h3>
+                    <img src="${news.image}" alt="Foto da Notícia" class="w-full h-auto rounded-lg mb-2">
+                    <p class="text-gray-300">
+                        ${news.text}
+                    </p>
+                    
+                </div>
+            `).join('');
+        }
+
         function backToNewsScreen() {
             const sectionsContainer = document.getElementById('sectionsContainer');
             const newsSection = document.getElementById('newsSection');
             const navButtons = document.getElementById('navButtons');
-            const mainMenuBtn = document.getElementById('mainMenuBtn');
+            const fullNewsSection = document.getElementById('fullNewsSection');
 
             sectionsContainer.classList.add('hidden');
             navButtons.classList.add('hidden');
+            fullNewsSection.classList.add('hidden');
             newsSection.classList.remove('hidden');
-            mainMenuBtn.textContent = 'MENU';
         }
 
         function toggleMenu() {
             const navButtons = document.getElementById('navButtons');
-            const menuButtons = document.getElementById('mainMenuBtn');
             const newsSection = document.getElementById('newsSection');
-            
+            const fullNewsSection = document.getElementById('fullNewsSection');
+
             if (navButtons.classList.contains('hidden')) {
-                // Estado 1: Menu está oculto, mostra o menu principal e esconde as notícias
-                navButtons.classList.remove('hidden');
                 newsSection.classList.add('hidden');
+                fullNewsSection.classList.add('hidden');
+                navButtons.classList.remove('hidden');
             } else {
-                // Estado 2: Menu está visível, mostra as notícias e esconde o menu principal
                 navButtons.classList.add('hidden');
                 newsSection.classList.remove('hidden');
             }
@@ -258,26 +259,26 @@ A primeira fase do campeonato será um verdadeiro teste de fogo para o KENMDENCE
                     logo1.classList.add('hidden');
                     logo2.classList.remove('hidden');
                 }
-            }, 1000); // Toggles every 1 second
+            }, 1000);
 
             setTimeout(() => {
                 splashScreen.classList.add('hidden');
                 mainContent.classList.add('visible');
-            }, 3000); // 3 segundos
+                renderNews('latestNews', 2);
+            }, 3000);
         };
 
         function showSection(section) {
             const navButtons = document.getElementById('navButtons');
             const sectionsContainer = document.getElementById('sectionsContainer');
             const newsSection = document.getElementById('newsSection');
-            const mainMenuBtn = document.getElementById('mainMenuBtn');
-            const menuButtons = document.getElementById('menuButtons');
-
+            const fullNewsSection = document.getElementById('fullNewsSection');
 
             navButtons.classList.add('hidden');
-            newsSection.classList.add('hidden');
             sectionsContainer.innerHTML = '';
             sectionsContainer.classList.remove('hidden');
+            newsSection.classList.add('hidden');
+            fullNewsSection.classList.add('hidden');
 
             let contentHTML = '';
 
@@ -485,9 +486,27 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                         </div>
                     `;
                     break;
+                case 'fullNews':
+                     contentHTML = `
+                        <div class="relative w-full">
+                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
+                            <div class="flex flex-col items-center">
+                                <h2 class="text-xl font-bold mb-4 text-center mt-10">Notícias Completas</h2>
+                                <div class="space-y-6 w-full">
+                                    <!-- Conteúdo será injetado aqui pelo JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
             }
 
-            sectionsContainer.innerHTML = contentHTML;
+            if (section === 'fullNews') {
+                sectionsContainer.innerHTML = contentHTML;
+                renderNews('sectionsContainer', 0);
+            } else {
+                sectionsContainer.innerHTML = contentHTML;
+            }
         }
 
         function handleLogin(event) {
@@ -518,21 +537,7 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
             }
         }
 
-        function shareNews(title, text, imageUrl) {
-            if (navigator.share) {
-                navigator.share({
-                    title: title,
-                    text: text,
-                    url: imageUrl
-                }).then(() => {
-                    console.log('Notícia compartilhada com sucesso!');
-                }).catch((error) => {
-                    console.log('Erro ao compartilhar:', error);
-                });
-            } else {
-                alert('O seu navegador não suporta o compartilhamento.');
-            }
-        }
+        
     </script>
 </body>
 </html>
