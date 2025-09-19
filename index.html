@@ -149,7 +149,9 @@
             <div id="sectionsContainer" class="mt-8 p-4 rounded-lg shadow-inner hidden section-container overflow-y-auto w-full h-full"></div>
             <!-- Seção de Notícias - Agora visível por padrão -->
             <div id="newsSection" class="mt-8 p-4 rounded-lg shadow-inner section-container overflow-y-auto w-full h-full">
-                <h2 class="text-xl font-bold mb-4 text-center mt-5">Notícias</h2>
+                <div class="w-full text-center mb-4">
+                    <button onclick="backToMainScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
+                </div>
                 <div class="space-y-6 w-full" id="latestNews">
                     <!-- Conteúdo será injetado aqui pelo JavaScript -->
                 </div>
@@ -192,11 +194,32 @@
             },
             {
                 date: '2025-09-05',
-                title: 'Campeonato Puro Sangue 2025',
+                title: 'Campeonato Puro SANGUE 2025',
                 image: 'https://lh3.googleusercontent.com/d/1Nzh2MFZI5bpOLzO9D9JFsfXRG5FnDhM7',
                 text: 'A cidade de Ibiporã se prepara para receber a primeira fase do tão aguardado Campeonato Puro Sangue 2025, um torneio que promete grandes emoções e rivalidades intensas. Todos os olhos estão voltados para o KENMDENCE F.C, que inicia sua jornada no campeonato com uma série de quatro jogos cruciais. A equipe, conhecida por sua estratégia agressiva e jogadores habilidosos, busca começar com o pé direito para garantir uma vaga na próxima etapa. O primeiro desafio do KENMDENCE F.C será contra o time da casa, o D"Fiori F.C. A partida, que promete ser um teste de resistência e habilidade, acontecerá em um clima de muita pressão. Em seguida, a equipe enfrentará o Juventus F.C. O confronto será uma oportunidade para o KENMDENCE F.C mostrar sua força contra um adversário de alto nível. O terceiro jogo colocará o KENMDENCE F.C frente a frente com o A.E. Altitude. A partida exigirá paciência e inteligência tática, e o time que souber explorar os erros do adversário terá grandes chances de sair vitorioso. Por fim, o KENMDENCE F.C encerrará a primeira fase do campeonato contra o Inter Santa Paula, um confronto que pode definir o destino da equipe na competição. A partida será decisiva e a equipe deve entrar em campo com determinação total para garantir a classificação. A primeira fase do campeonato será um verdadeiro teste de fogo para o KENMDENCE F.C. O time, com sua mescla de jovens talentos e jogadores experientes, busca mostrar que é um dos grandes favoritos ao título. A jornada não será fácil, mas a equipe está confiante e pronta para enfrentar qualquer desafio que venha pela frente.'
             },
         ];
+
+        let currentNewsIndex = 0;
+
+        function renderSingleNews() {
+            const container = document.getElementById('latestNews');
+            const sortedNews = newsData.sort((a, b) => new Date(b.date) - new Date(a.date));
+            const newsToDisplay = sortedNews[currentNewsIndex];
+
+            container.innerHTML = `
+                <div class="bg-gray-800 p-4 rounded-lg shadow-md relative">
+                    <span class="absolute top-2 right-2 text-xs text-gray-400">${newsToDisplay.date.split('-').reverse().join('/')}</span>
+                    <h3 class="text-lg font-bold mb-2">${newsToDisplay.title}</h3>
+                    <img src="${newsToDisplay.image}" alt="Foto da Notícia" class="w-full h-auto rounded-lg mb-2">
+                    <p class="text-gray-300">
+                        ${newsToDisplay.text}
+                    </p>
+                </div>
+            `;
+            
+            currentNewsIndex = (currentNewsIndex + 1) % 2; // Alterna entre 0 e 1
+        }
 
         function renderNews(containerId, count) {
             const container = document.getElementById(containerId);
@@ -208,7 +231,7 @@
                     <span class="absolute top-2 right-2 text-xs text-gray-400">${news.date.split('-').reverse().join('/')}</span>
                     <h3 class="text-lg font-bold mb-2">${news.title}</h3>
                     <img src="${news.image}" alt="Foto da Notícia" class="w-full h-auto rounded-lg mb-2">
-                    <p class="text-white-300 font-bold">
+                    <p class="text-gray-300">
                         ${news.text}
                     </p>
                     
@@ -264,7 +287,8 @@
             setTimeout(() => {
                 splashScreen.classList.add('hidden');
                 mainContent.classList.add('visible');
-                renderNews('latestNews', 2);
+                renderSingleNews();
+                setInterval(renderSingleNews, 10000);
             }, 3000);
         };
 
@@ -398,16 +422,11 @@
                             <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
                             <div class="flex flex-col items-center">
                                 <h2 class="text-xl font-bold mb-4 text-center mt-10">História do Clube</h2>
+                                <img src="https://lh3.googleusercontent.com/d/19tMWJUs5rl403bm4Qz7R3Vep8Lg14qYV" alt="Imagem da História do Clube" class="w-full h-auto rounded-lg mb-4">
                                 <div class="space-y-4 overflow-y-auto w-full h-full">
                                     <p class="text-gray-200"> Fundado em 1987, no Jardim John Kennedy, em Ibiporã – Paraná, o time surgiu com o nome Meninos do Kennedy, carregando a identidade e a união do bairro. Em 2015, passou por uma repaginada e adotou o nome Kendence Futebol Clube, referência direta às suas raízes.
 
-Ao longo da trajetória, o Kendence F.C. construiu respeito e tradição no futebol amador, acumulando conquistas e boas campanhas:
-
-🏆 Campeão Bronze – 2017
-🥈 Vice-Campeão Jataizinho – 2018
-🥈 Vice-Campeão Motor Parts (Prata) – 2023
-🥈 Vice-Campeão Municipal – Divisão Prata – 2024
-
+Ao longo da trajetória, o Kendence F.C. construiu respeito e tradição no futebol amador, acumulando conquistas e boas campanhas:🏆 Campeão Bronze – 2017, 🥈 Vice-Campeão Jataizinho – 2018, 🥈 Vice-Campeão Motor Parts (Prata) – 2023, 🥈 Vice-Campeão Municipal – Divisão Prata – 2024
 Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão e compromisso, sempre em busca de novas vitórias.</p>
                                 </div>
                             </div>
@@ -541,4 +560,3 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
     </script>
 </body>
 </html>
-
