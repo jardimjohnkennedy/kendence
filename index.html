@@ -125,6 +125,9 @@
             
             <!-- Botões de navegação - Ocultos por padrão -->
             <div id="navButtons" class="flex flex-col items-end space-y-4 w-full mt-5 hidden">
+                <button onclick="showSection('fullNews')" class="btn-base bg-transparent hover:bg-gray-800 text-white font-bold rounded-full text-sm md:text-xl">
+                    NOTICIAS
+                </button>
                 <button onclick="showSection('players')" class="btn-base bg-transparent hover:bg-gray-800 text-white font-bold rounded-full text-sm md:text-xl">
                     JOGADORES
                 </button>
@@ -134,11 +137,11 @@
                 <button onclick="showSection('social')" class="btn-base bg-transparent hover:bg-gray-800 text-white font-bold rounded-full text-sm md:text-xl">
                     REDES SOCIAIS
                 </button>
+                <button onclick="showSection('sponsorship')" class="btn-base bg-transparent hover:bg-gray-800 text-white font-bold rounded-full text-sm md:text-xl">
+                    PATROCÍNIO
+                </button>
                 <button onclick="showSection('gallery')" class="btn-base bg-transparent hover:bg-gray-800 text-white font-bold rounded-full text-sm md:text-xl">
                     GALERIA 
-                </button>
-                <button onclick="showSection('fullNews')" class="btn-base bg-transparent hover:bg-gray-800 text-white font-bold rounded-full text-sm md:text-xl">
-                    NOTICIAS
                 </button>
             </div>
             
@@ -462,27 +465,91 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                                 <p class="text-gray-200 text-center mb-4">Clique nos links abaixo para acessar as fotos e vídeos do Kendence.</p>
                                 <div class="space-y-4 overflow-y-auto w-full h-full">
                                     <!-- Modelo de item da lista da galeria -->
-                                    <a href="https://drive.google.com/drive/folders/1ujHIcc87gguhfM5-aZTzCI9MoJ-u4a-p?usp=drive_link" target="_blank" class="block bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
+                                    <button onclick="showAlbum('WALLPAPERS KENDENCE')" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
                                         <h3 class="font-bold">WALLPAPERS KENDENCE</h3>
                                         <p class="text-sm text-gray-400">Aqui você encontra todas wallpapers do time para usar no celular e pc.</p>
-                                    </a>
-                                    <a href="https://drive.google.com/drive/folders/1MPieySZltQ69euP81L9o2V08wlC_4JQu?usp=drive_link" target="_blank" class="block bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
+                                    </button>
+                                    <button onclick="showAlbum('FOTOS E VIDEOS')" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
                                         <h3 class="font-bold">FOTOS E VIDEOS</h3>
                                         <p class="text-sm text-gray-400">Aqui você encontra fotos e videos, jogos e campeonatos.</p>
-                                    </a>
-                                    <a href="https://drive.google.com/drive/folders/1BTOeKlLyKpi8or4u2p5a3kxVI-KIQ5AG?usp=drive_link" target="_blank" class="block bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
+                                    </button>
+                                    <button onclick="showAlbum('FIGURINHAS')" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
                                         <h3 class="font-bold">FIGURINHAS</h3>
                                         <p class="text-sm text-gray-400"> Aqui você encontra figurinos personalizadas dos jogadores do time para voce baixar.</p>
-                                    </a>
-                                     <a href="https://drive.google.com/drive/folders/1Z3PidCFqvr9FggAzUEdJkNqgLWtrd-eD?usp=drive_link" target="_blank" class="block bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
+                                    </button>
+                                    <button onclick="showAlbum('ESTAMPAS')" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
                                         <h3 class="font-bold">ESTAMPAS</h3>
                                         <p class="text-sm text-gray-400"> Aqui você encontra camisetas com estampas personalizadas do time no estilo Street.</p>
-                                    </a>
-                                    <a href="https://drive.google.com/drive/folders/1BNs1TjGhXATk8STdXLheeV3UIsTzaAkE?usp=drive_link" target="_blank" class="block bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
+                                    </button>
+                                    <button onclick="showAlbum('BRASÃO DO TIME')" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
                                         <h3 class="font-bold">BRASÃO DO TIME</h3>
                                         <p class="text-sm text-gray-400"> Aqui você encontra o Novo Brasão do time Kendence para você baixar e compartilhar.</p>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'sponsorship':
+                    contentHTML = `
+                        <div class="relative w-full">
+                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
+                            <div class="flex flex-col items-center">
+                                <h2 class="text-xl font-bold mb-4 text-center mt-0">Braza Nobre</h2>
+                                <img src="https://lh3.googleusercontent.com/d/16rqprm9c1ePfhP5BCS2FdSxO-sN8OgrJ" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
+                                <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
+                                    <h3 class="text-lg font-bold mb-2">Informações de Contato</h3>
+                                    <p class="text-white text-sm">
+                                        <strong>Endereço:</strong> Av. Ibrahim prudente da Silva 1905 - Ibiporã-PR
+                                    </p>
+                                    <p class="text-white text-sm">
+                                        <strong>Telefone:</strong> (43) 99908-9430
+                                    </p>
+                                    <a href="https://www.instagram.com/braza_nobre/#" target="_blank" class="block w-full mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
+                                        Instagram
                                     </a>
-                                    <!-- Adicione mais links aqui -->
+                                </div>
+                                <h2 class="text-xl font-bold mb-4 text-center mt-10">Bichinho Chique</h2>
+                                <img src="https://lh3.googleusercontent.com/d/10lYW_LMsE6WgZSbIOLE0J2eirlmaMF8J" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
+                                <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
+                                    <h3 class="text-lg font-bold mb-2">Informações de Contato</h3>
+                                    <p class="text-white text-sm">
+                                        <strong>Endereço:</strong> R. João Barretos 427 - Ibiporã-PR
+                                    </p>
+                                    <p class="text-white text-sm">
+                                        <strong>Telefone:</strong> (43) 3158-5656
+                                    </p>
+                                    <a href="https://www.instagram.com/bichinho_chic_petshop/#" target="_blank" class="block w-full mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
+                                        Instagram
+                                    </a>
+                                </div>
+                                <h2 class="text-xl font-bold mb-4 text-center mt-10">Tik Dogs</h2>
+                                <img src="https://lh3.googleusercontent.com/d/1auLJecFd5CuJxlzOZ0HJ6HB-_kUK9WKC" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
+                                <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
+                                    <h3 class="text-lg font-bold mb-2">Informações de Contato</h3>
+                                    <p class="text-white text-sm">
+                                        <strong>Endereço:</strong> Praça Frei Timóteo, 51 Centro - Jataizinho-PR
+                                    </p>
+                                    <p class="text-white text-sm">
+                                        <strong>Telefone:</strong> (43)3159-0091
+                                    </p>
+                                    <a href="https://www.instagram.com/tikdogsjataizinho/#" target="_blank" class="block w-full mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
+                                        Instagram
+                                    </a>
+                                                                    </div>
+                                <h2 class="text-xl font-bold mb-4 text-center mt-10">Gilsinho Beer</h2>
+                                <img src="https://lh3.googleusercontent.com/d/1zBKx8pDB208dXkx2_kOH06SeopDmQbay" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
+                                <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
+                                    <h3 class="text-lg font-bold mb-2">Informações de Contato</h3>
+                                    <p class="text-white text-sm">
+                                        <strong>Endereço:</strong> R. Foz do Iguaçú, Jd. John Kennedy - Ibiporã-PR,
+                                    </p>
+                                    <p class="text-white text-sm">
+                                        <strong>Telefone:</strong> (43) 99616-6692
+                                    </p>
+                                    <a href="https://www.instagram.com/gilsinhobeer/#" target="_blank" class="block w-full mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
+                                        Instagram
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -559,6 +626,3 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
     </script>
 </body>
 </html>
-
-
-
