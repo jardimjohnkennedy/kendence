@@ -161,7 +161,7 @@
             
             <!-- Seção de Notícias completa - Oculta por padrão -->
             <div id="fullNewsSection" class="mt-8 p-4 rounded-lg shadow-inner section-container overflow-y-auto w-full h-full hidden">
-                 <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
+                 <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-transparent hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
                 <h2 class="text-xl font-bold mb-4 text-center mt-5">Notícias Completas</h2>
                 <div class="space-y-6 w-full" id="fullNews">
                      <!-- Conteúdo será injetado aqui pelo JavaScript -->
@@ -195,7 +195,7 @@
                 text: 'Após a vitória de 2 a 1 contra o D\'Fiori, o Kendence se prepara para o segundo jogo contra o Juventus F.C, no Campeonato Puro Sangue 2025 em Ibiporã.'
             },
             {
-                date: '2025-09-20',
+                date: '2025-09-21',
                 title: 'Seja um patrocinador do Kendence F.C.!',
                 image: 'https://lh3.googleusercontent.com/d/1gQnw3v9ULNRkp53NLw2Yt9RJ7icVI9DH',
                 text: 'Você garante divulgação da sua marca em nossos posts no Instagram, Sua logo estampada em todos os cartazes oficiais do time, marcação da sua empresa em cada publicação, Presença junto com a nossa torcida e nossos jogadores. 👉 Venha fazer parte da nossa história! Entre em contato e seja um patrocinador oficial do Kendence F.C.'
@@ -220,9 +220,7 @@
                     <span class="absolute top-2 right-2 text-xs text-gray-400">${newsToDisplay.date.split('-').reverse().join('/')}</span>
                     <h3 class="text-lg font-bold mb-2">${newsToDisplay.title}</h3>
                     <img src="${newsToDisplay.image}" alt="Foto da Notícia" class="w-full h-auto rounded-lg mb-2">
-                    <p class="text-gray-300">
-                        ${newsToDisplay.text}
-                    </p>
+                    <button onclick="readMore('${newsToDisplay.title}')" class="mt-4 bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg block mx-auto">LER MAIS</button>
                 </div>
             `;
             
@@ -258,6 +256,28 @@
             fullNewsSection.classList.add('hidden');
             newsSection.classList.remove('hidden');
         }
+        
+        function readMore(title) {
+            const news = newsData.find(item => item.title === title);
+            const fullNewsSection = document.getElementById('fullNewsSection');
+            const fullNewsContent = document.getElementById('fullNews');
+            const newsSection = document.getElementById('newsSection');
+            
+            fullNewsSection.classList.remove('hidden');
+            newsSection.classList.add('hidden');
+            
+            fullNewsContent.innerHTML = `
+                <div class="bg-gray-800 p-4 rounded-lg shadow-md relative">
+                    <span class="absolute top-2 right-2 text-xs text-gray-400">${news.date.split('-').reverse().join('/')}</span>
+                    <h3 class="text-xl font-bold mb-2">${news.title}</h3>
+                    <img src="${news.image}" alt="Foto da Notícia" class="w-full h-auto rounded-lg mb-2">
+                    <p class="text-gray-300">
+                        ${news.text}
+                    </p>
+                </div>
+            `;
+        }
+
 
         function toggleMenu() {
             const navButtons = document.getElementById('navButtons');
@@ -318,7 +338,7 @@
                 case 'players':
                     contentHTML = `
                         <div class="relative w-full">
-                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
+                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-transparent hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
                             <div class="flex flex-col items-center">
                                 <h2 class="text-xl font-bold mb-4 text-center mt-10">Comissão Técnica e Jogadores</h2>
                                 <div class="space-y-4 overflow-y-auto w-full h-full">
@@ -427,7 +447,7 @@
                 case 'history':
                     contentHTML = `
                         <div class="relative w-full">
-                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
+                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-transparent hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
                             <div class="flex flex-col items-center">
                                 <h2 class="text-xl font-bold mb-4 text-center mt-10">História do Clube</h2>
                                 <img src="https://lh3.googleusercontent.com/d/19tMWJUs5rl403bm4Qz7R3Vep8Lg14qYV" alt="Imagem da História do Clube" class="w-full h-auto rounded-lg mb-4">
@@ -444,7 +464,7 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                 case 'social':
                     contentHTML = `
                         <div class="relative w-full">
-                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
+                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-transparent hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
                             <div class="flex flex-col items-center">
                                 <h2 class="text-xl font-bold mb-4 text-center mt-10">Redes Sociais</h2>
                                 <div class="space-y-4 w-full">
@@ -465,7 +485,7 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                 case 'gallery':
                     contentHTML = `
                         <div class="relative w-full">
-                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
+                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-transparent hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
                             <div class="flex flex-col items-center">
                                 <h2 class="text-xl font-bold mb-4 text-center mt-10">Galeria</h2>
                                 <p class="text-gray-200 text-center mb-4">Clique nos links abaixo para acessar as fotos e vídeos do Kendence.</p>
@@ -499,12 +519,12 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                 case 'sponsorship':
                     contentHTML = `
                         <div class="relative w-full">
-                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
+                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-transparent hover:bg-gray-transparent rounded-full px-4 py-2 ml-2">← Voltar</button>
                             <div class="flex flex-col items-center">
                                 <h2 class="text-xl font-bold mb-4 text-center mt-0"></h2>
                                 <img src="https://lh3.googleusercontent.com/d/16rqprm9c1ePfhP5BCS2FdSxO-sN8OgrJ" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
                                 <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
-                                    <h3 class="text-lg font-bold mb-2">Informações de Contato</h3>
+                                    <h3 class="text-lg font-bold mb-2">Braza Nobre</h3>
                                     <p class="text-white text-sm">
                                         <strong>Endereço:</strong> Av. Ibrahim prudente da Silva 1905 - Ibiporã-PR
                                     </p>
@@ -518,7 +538,7 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                                 <h2 class="text-xl font-bold mb-4 text-center mt-10"></h2>
                                 <img src="https://lh3.googleusercontent.com/d/10lYW_LMsE6WgZSbIOLE0J2eirlmaMF8J" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
                                 <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
-                                    <h3 class="text-lg font-bold mb-2">Informações de Contato</h3>
+                                    <h3 class="text-lg font-bold mb-2">Bichinho Chique</h3>
                                     <p class="text-white text-sm">
                                         <strong>Endereço:</strong> R. João Barretos 427 - Ibiporã-PR
                                     </p>
@@ -532,7 +552,7 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                                 <h2 class="text-xl font-bold mb-4 text-center mt-10"></h2>
                                 <img src="https://lh3.googleusercontent.com/d/1auLJecFd5CuJxlzOZ0HJ6HB-_kUK9WKC" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
                                 <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
-                                    <h3 class="text-lg font-bold mb-2">Informações de Contato</h3>
+                                    <h3 class="text-lg font-bold mb-2">Tik Dogs</h3>
                                     <p class="text-white text-sm">
                                         <strong>Endereço:</strong> Praça Frei Timóteo, 51 Centro - Jataizinho-PR
                                     </p>
@@ -542,11 +562,11 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                                     <a href="https://www.instagram.com/tikdogsjataizinho/#" target="_blank" class="block w-full mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
                                         Instagram
                                     </a>
-                                                                    </div>
+                                 </div>
                                 <h2 class="text-xl font-bold mb-4 text-center mt-10"></h2>
                                 <img src="https://lh3.googleusercontent.com/d/1zBKx8pDB208dXkx2_kOH06SeopDmQbay" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
                                 <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
-                                    <h3 class="text-lg font-bold mb-2">Informações de Contato</h3>
+                                    <h3 class="text-lg font-bold mb-2">Gilsinho Beer </h3>
                                     <p class="text-white text-sm">
                                         <strong>Endereço:</strong> R. Foz do Iguaçú, Jd. John Kennedy - Ibiporã-PR,
                                     </p>
@@ -554,6 +574,34 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                                         <strong>Telefone:</strong> (43) 99616-6692
                                     </p>
                                     <a href="https://www.instagram.com/gilsinhobeer/#" target="_blank" class="block w-full mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
+                                        Instagram
+                                    </a>
+                                 </div>
+                                <h2 class="text-xl font-bold mb-4 text-center mt-10"></h2>
+                                <img src="https://lh3.googleusercontent.com/d/1oOvS9NjQ5hX-609-PpdP_p7mLjBh5MJG" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
+                                <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
+                                    <h3 class="text-lg font-bold mb-2">Auto Escola VEGA </h3>
+                                    <p class="text-white text-sm">
+                                        <strong>Endereço:</strong> Avenida dos Estudantes, 551, Centro - Ibiporã-PR,
+                                    </p>
+                                    <p class="text-white text-sm">
+                                        <strong>Telefone:</strong> (43) 3268-0068
+                                    </p>
+                                    <a href="https://www.instagram.com/autoescolavega/#" target="_blank" class="block w-full mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
+                                        Instagram
+                                    </a>
+                                 </div>
+                                <h2 class="text-xl font-bold mb-4 text-center mt-10"></h2>
+                                <img src="https://lh3.googleusercontent.com/d/1c8hJimr2yTO8TgpWwdyIpJLDoKmgGtqD" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
+                                <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
+                                    <h3 class="text-lg font-bold mb-2">Agnaldo Pereira Construção e reforma </h3>
+                                    <p class="text-white text-sm">
+                                        <strong>Endereço:</strong> R. Foz do Iguaçú, Jd. John Kennedy - Ibiporã-PR,
+                                    </p>
+                                    <p class="text-white text-sm">
+                                        <strong>Telefone:</strong> (43) 99837-7736
+                                    </p>
+                                    <a href="https://www.instagram.com/agnaldo.pereira.753329/?__pwa=1##" target="_blank" class="block w-full mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
                                         Instagram
                                     </a>
                                 </div>
@@ -564,7 +612,7 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                 case 'user-login':
                     contentHTML = `
                         <div class="relative w-full">
-                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
+                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-transparent hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
                             <div class="flex flex-col items-center">
                                 <h2 class="text-xl font-bold mb-4 text-center mt-10">Acesso Restrito</h2>
                                 <form onsubmit="handleLogin(event)" class="space-y-4 w-full">
@@ -632,7 +680,3 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
     </script>
 </body>
 </html>
-
-
-
-
