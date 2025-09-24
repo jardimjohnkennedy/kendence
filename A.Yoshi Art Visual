@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela de Preços</title>
+    <style>
+        /* Estilos globais */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        /* 1. Tela de Splash (mantido) */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://lh3.googleusercontent.com/d/1TZ-x4HoWhHu4i5cfruweD3C-Tj4c8R5b');
+            background-size: cover;
+            background-position: center;
+            transition: opacity 2s ease-in-out;
+            opacity: 1;
+            z-index: 1000;
+        }
+
+        #splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .blinking-logo {
+            width: 200px;
+            height: auto;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* 2. Tela Principal */
+        #main-screen {
+            display: flex;
+            height: 100vh;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            /* Adicionado overflow para rolagem na tela principal, não no body */
+            overflow: hidden;
+        }
+
+        #main-screen.visible {
+            opacity: 1;
+        }
+
+        /* Estilo da barra lateral */
+        .sidebar {
+            width: 80px;
+            background-color: #2e403c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .sidebar h1 {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            transform: rotate(-90deg);
+            white-space: nowrap;
+        }
+
+        /* Estilo da área de conteúdo (grid) */
+        .content-grid {
+            flex-grow: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        /* Estilo do cartão de produto (mantido) */
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .product-card p {
+            margin: 5px 0;
+        }
+
+        .product-card p strong {
+            font-weight: bold;
+        }
+
+        .product-card .code,
+        .product-card .price {
+            font-weight: bold;
+        }
+
+        /* Estilo do botão do WhatsApp (mantido) */
+        .product-whatsapp-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .product-whatsapp-btn img {
+            width: 20px;
+            height: auto;
+            margin-right: 8px;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        /* Estilos do Modal de tela cheia (mantido) */
+        #fullscreen-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+        }
+
+        #fullscreen-modal.visible {
+            display: flex;
+        }
+
+        #fullscreen-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        /* Media Queries para responsividade */
+        @media (max-width: 768px) {
+            /* Oculta a barra lateral em telas menores que 768px */
+            .sidebar {
+                display: none;
+            }
+
+            /* Faz o layout principal ocupar a tela inteira */
+            #main-screen {
+                display: block;
+                height: auto;
+                overflow-y: auto;
+            }
+            
+            /* Ajusta a grade para 1 coluna em telas menores */
+            .content-grid {
+                grid-template-columns: 1fr;
+                padding-top: 20px; /* Garante que o topo da página não fique "preso" */
+            }
+
+            /* Centraliza a grade */
+            .product-card {
+                margin: 0 auto;
+            }
+
+            /* Garante que o modal de tela cheia se adapte a celulares */
+            #fullscreen-modal img {
+                max-width: 100%;
+                max-height: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="splash-screen">
+        <img src="https://lh3.googleusercontent.com/d/1jlViMQooMu3i6rstjHIOQq492YfA3ajQ" alt="Brasão da Marca" class="blinking-logo">
+    </div>
+
+    <div id="main-screen">
+        <div class="sidebar">
+            <h1>TABELA DE PREÇO</h1>
+        </div>
+
+        <div class="content-grid" id="product-list">
+        </div>
+    </div>
+
+    <div id="fullscreen-modal">
+        <span class="close-btn">×</span>
+        <img id="fullscreen-image" src="" alt="Imagem em tela cheia">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const splashScreen = document.getElementById('splash-screen');
+            const mainScreen = document.getElementById('main-screen');
+            const fullscreenModal = document.getElementById('fullscreen-modal');
+            const fullscreenImage = document.getElementById('fullscreen-image');
+            const closeBtn = document.querySelector('.close-btn');
+
+            const products = [
+                { imageUrl: 'https://lh3.googleusercontent.com/d/1_G-fjmPaD1KoHcA_bHksVy9x6zN7WD-8', code: 'Site/App do Time', description: '*Criação de e-mail institucional para o time. *Configuração e publicação de site em conta GitHub Pages. *Organização de conta no Google Drive para armazenamento de arquivos e imagens. *Desenvolvimento de identidade visual inicial: brasão e imagem de fundo na tela de carregamento. *Estruturação do layout da tela inicial com design personalizado. *Implementação de menus principais: Notícias, Jogadores, História, Redes Sociais, Patrocinadores e Galeria.', retailPrice: 'Criação R$150,00 / Dominio R$250,00 / Atualização R$15,00' },
+                { imageUrl: 'https://lh3.googleusercontent.com/d/1ZrdQ5vRKu75nr-YHKdqrhcbbPeQsdoBp', code: 'Cartaz/Baner Jogo', description: 'Cataz e Bernner *Dia do jogo, *Escalação do time, *Logo/brasão de time e capeonato, Mascote Time em .PNG', retailPrice: 'R$15,00' },
+                { imageUrl: 'https://lh3.googleusercontent.com/d/1SC7N5ITTKcqWg_rcp7AbxdjtVxX8Vzdu', code: 'Banner Animado', description: 'Cartaz e Banner time Animado .GIF ou .MP4', retailPrice: 'R$25,00' },
+                { imageUrl: 'https://lh3.googleusercontent.com/d/1bZ1qn5-_0TB07Yrybcf3K1BR2N6LPUsd', code: 'Figurinha Jogador', description: 'Figurinhas pesonalkizada para jogador.', retailPrice: 'R$15,00' },
+                { imageUrl: 'https://lh3.googleusercontent.com/d/1KcrzMT81PhmowmLoYEMu7mfGJ1EjU5Iz', code: 'Brasão e Mascote', description: 'Criação de brasão e mascote em .PNG para times e eventros', retailPrice: 'R$50,00' },
+                { imageUrl: 'https://lh3.googleusercontent.com/d/19s_Q8swdAtKh1cwte0aMA_eFf3iiqV4X', code: 'Curriculo', description: 'Curriculos simples ou personalizado em .PDF .', retailPrice: 'A partir de R$10,00' },
+                { imageUrl: 'https://lh3.googleusercontent.com/d/1IEtoHSML32djZ-WwLWA5uwcoDXVmXATj', code: 'Logo', description: 'Criação de logos, banners e cartazer para sua empresa.', retailPrice: 'A partir de R$15,00' }
+            ];
+
+            function createProductCard(product) {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${product.imageUrl}" alt="Imagem do Produto ${product.code}">
+                    <p class="code">  ${product.code}</p>
+                    <p>${product.description}</p>
+                    <p class="price"><strong>Valor:</strong> ${product.retailPrice}</p>
+                    <button class="whatsapp-button product-whatsapp-btn" data-product-code="${product.code}">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="Ícone do WhatsApp">
+                        Consultar no WhatsApp
+                    </button>
+                `;
+                return card;
+            }
+
+            const productList = document.getElementById('product-list');
+            products.forEach(product => {
+                const card = createProductCard(product);
+                productList.appendChild(card);
+            });
+
+            document.querySelectorAll('.product-card img').forEach(image => {
+                image.addEventListener('click', (event) => {
+                    fullscreenImage.src = event.target.src;
+                    fullscreenModal.classList.add('visible');
+                });
+            });
+
+            closeBtn.addEventListener('click', () => {
+                fullscreenModal.classList.remove('visible');
+            });
+            
+            fullscreenModal.addEventListener('click', (event) => {
+                if (event.target === fullscreenModal) {
+                    fullscreenModal.classList.remove('visible');
+                }
+            });
+
+            document.querySelectorAll('.product-whatsapp-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const productCode = button.getAttribute('data-product-code');
+                    const phoneNumber = '5543984399533'; 
+                    const message = `Olá! Tenho interesse no produto de código: ${productCode}. Poderia me dar mais informações?`;
+                    
+                    const whatsappLink = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+                    window.open(whatsappLink, '_blank');
+                });
+            });
+
+            setTimeout(() => {
+                splashScreen.classList.add('hidden');
+                mainScreen.classList.add('visible');
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
