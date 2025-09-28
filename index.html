@@ -93,9 +93,49 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        /* Estilo para o widget flutuante do WhatsApp (Ícone + Texto) */
+        .whatsapp-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            z-index: 40;
+        }
+        .whatsapp-btn {
+            background-color: #25D366;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s;
+        }
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+        }
+        .whatsapp-text {
+            margin-top: 4px;
+            font-size: 0.75rem; /* text-xs */
+            color: white;
+        }
     </style>
 </head>
 <body>
+
+    <!-- Widget Flutuante do WhatsApp (Ícone + Texto) -->
+    <div class="whatsapp-widget">
+        <a href="https://wa.me/5543998202218" target="_blank" class="whatsapp-btn">
+            <!-- Coloque a URL da sua imagem aqui -->
+            <img src="https://lh3.googleusercontent.com/d/15O9GrJXb2wUYA_6bnJvK4CgVFxw0wY5y" alt="WhatsApp Icon" class="w-8 h-8 object-contain">
+        </a>
+        <span class="whatsapp-text">Contato Rápido</span>
+    </div>
 
     <!-- Tela de Carregamento (Splash Screen) -->
     <div id="splashScreen" class="splash-screen">
@@ -173,15 +213,22 @@
         <footer class="w-full text-white p-6 text-center mt-auto">
             <h2 class="text-xl font-bold mb-0"></h2>
             <div class="space-y-2 text-sm">
-                <p><strong>Para marcar dia de jogos e campeonatos, acesse nossas redes sociais!</strong> </p>
+                <p><strong>Para marcar dia de jogos e campeonatos, entre em contato pelo nosso WhatsApp!</strong> </p>
                 <p><strong>By:</strong> A.Yoshi</p>
                 <p><strong></strong> </p>
             </div>
+             <!-- O botão do WhatsApp já está definido como flutuante (fixed) no CSS -->
         </footer>
     </div>
 
     <script>
         const newsData = [
+                        {
+                date: '2025-09-28',
+                title: 'Kendence empata e segue líder no Grupo B do Campeonato Puro Sangue 2025',
+                image: 'https://lh3.googleusercontent.com/d/1WU-hdV8vxWfjFdfkOaepc8wT5c7_RBnU',
+                text: 'Na manhã deste domingo, o Kendence entrou em campo para o seu terceiro jogo no Campeonato Puro Sangue 2025, enfrentando o A.E. Altitude. A partida terminou em 1 a 1, resultado que mantém o time na liderança da competição, agora somando 7 pontos. O próximo desafio já está marcado: no domingo, 12/10, o Kendence encara o Inter de Santa Paula, às 9h, no Campo Estrela 1. A torcida segue confiante em mais uma grande atuação da equipe!'
+            },
             {
                 date: '2025-09-25',
                 title: '3º jogo do Kendence no Campeonato Puro Sangue 2025.',
@@ -201,7 +248,7 @@
                 text: 'Após a vitória de 2 a 1 contra o D\'Fiori, o Kendence se prepara para o segundo jogo contra o Juventus F.C, no Campeonato Puro Sangue 2025 em Ibiporã.'
             },
             {
-                date: '2025-09-24',
+                date: '2025-09-27',
                 title: 'Seja um patrocinador do Kendence F.C.!',
                 image: 'https://lh3.googleusercontent.com/d/1gQnw3v9ULNRkp53NLw2Yt9RJ7icVI9DH',
                 text: 'Você garante divulgação da sua marca em nossos posts no Instagram, Sua logo estampada em todos os cartazes oficiais do time, marcação da sua empresa em cada publicação, Presença junto com a nossa torcida e nossos jogadores. 👉 Venha fazer parte da nossa história! Entre em contato e seja um patrocinador oficial do Kendence F.C.'
@@ -213,6 +260,32 @@
                 text: 'Ibiporã se prepara para Campeonato Puro Sangue 2025. Todos os olhos estão voltados para o KENMDENCE F.C, que inicia o campeonato com uma série de quatro jogos cruciais. O primeiro desafio do KENMDENCE F.C x D"Fiori F.C. A partida, que promete ser um teste de resistência e habilidade. Em seguida, a equipe enfrentará o Juventus F.C. O terceiro jogo colocará o KENMDENCE F.C frente a frente com o A.E. Altitude. Por fim, o KENMDENCE F.C encerrará a primeira fase do campeonato contra o Inter Santa Paula.'
             },
         ];
+        
+        // Dados da Galeria
+        const galleryData = {
+            'WALLPAPERS': [
+                { url: 'https://lh3.googleusercontent.com/d/1rK4uWJhta0a6X4sBfN-T8ZOPvnbRuG32', type: 'image' },
+                { url: 'https://lh3.googleusercontent.com/d/1_5tKqttemH-IA0IYamMUIVDDRni-CQZB', type: 'image' }
+            ],
+            'FOTOS E VIDEOS': [
+                { url: 'https://lh3.googleusercontent.com/d/1BO6I_CFebDwwk0BRZmVJJ-LI3fzj6lEi', type: 'image' },
+                
+                { url: 'https://drive.google.com/file/d/1_60_-ZQIA6EiYrtkplgfdwBThAvNyq07/preview', type: 'video' },
+                { url: 'https://lh3.googleusercontent.com/d/1F4UyG1aHTKriPJPXeAn7lfEEYmzwYWdd', type: 'image' }
+            ],
+            'BRASÃO DO TIME': [
+                { url: 'https://lh3.googleusercontent.com/d/1BNs1TjGhXATk8STdXLheeV3UIsTzaAkE', type: 'image' },
+                { url: 'https://lh3.googleusercontent.com/d/1hJ2gN2uL0K8r0K9hF4q5yT6p0f_n1m3t', type: 'image' }
+            ],
+            'CAMISETAS': [
+                { url: 'https://lh3.googleusercontent.com/d/1Z3PidCFqvr9FggAzUEdJkNqgLWtrd-eD', type: 'image' },
+                { url: 'https://lh3.googleusercontent.com/d/1CqK9d0l3c2Xz9D7o2eR9O0o9z7b6d5c5', type: 'image' }
+            ],
+            'FIGURINHAS': [
+                { url: 'https://lh3.googleusercontent.com/d/1BTOeKlLyKpi8or4u2p5a3kxVI-KIQ5AG', type: 'image' },
+                { url: 'https://lh3.googleusercontent.com/d/1xP9TfP_3vB2a7v8fC6mQ5o9o5z7b6d5c5', type: 'image' }
+            ]
+        };
 
         let currentNewsIndex = 0;
 
@@ -256,11 +329,15 @@
             const newsSection = document.getElementById('newsSection');
             const navButtons = document.getElementById('navButtons');
             const fullNewsSection = document.getElementById('fullNewsSection');
+            const albumContainer = document.getElementById('albumContainer');
 
             sectionsContainer.classList.add('hidden');
             navButtons.classList.add('hidden');
             fullNewsSection.classList.add('hidden');
             newsSection.classList.remove('hidden');
+            if (albumContainer) {
+                albumContainer.remove();
+            }
         }
         
         function readMore(title) {
@@ -489,34 +566,19 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                     `;
                     break;
                 case 'gallery':
+                    // Adicionando a nova estrutura da galeria
                     contentHTML = `
-                        <div class="relative w-full">
+                        <div id="galleryAlbums" class="relative w-full">
                             <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
                             <div class="flex flex-col items-center">
                                 <h2 class="text-xl font-bold mb-4 text-center mt-10">Galeria</h2>
-                                <p class="text-gray-200 text-center mb-4">Clique nos links abaixo para acessar as fotos e vídeos do Kendence.</p>
+                                <p class="text-gray-200 text-center mb-4">Selecione uma pasta para ver as mídias.</p>
                                 <div class="space-y-4 overflow-y-auto w-full h-full">
-                                    <!-- GALERIA - LINKS PARA O GOOGLE DRIVE -->
-                                    <a href="https://drive.google.com/drive/folders/1ujHIcc87gguhfM5-aZTzCI9MoJ-u4a-p?usp=drive_link" target="_blank" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
-                                        <h3 class="font-bold">WALLPAPERS KENDENCE</h3>
-                                        <p class="text-sm text-gray-400">Aqui você encontra todas wallpapers do time para usar no celular e pc.</p>
-                                    </a>
-                                    <a href="https://drive.google.com/drive/folders/1MPieySZltQ69euP81L9o2V08wlC_4JQu?usp=drive_link" target="_blank" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
-                                        <h3 class="font-bold">FOTOS E VIDEOS</h3>
-                                        <p class="text-sm text-gray-400">Aqui você encontra fotos e videos, jogos e campeonatos.</p>
-                                    </a>
-                                    <a href="https://drive.google.com/drive/folders/1BTOeKlLyKpi8or4u2p5a3kxVI-KIQ5AG?usp=drive_link" target="_blank" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
-                                        <h3 class="font-bold">FIGURINHAS</h3>
-                                        <p class="text-sm text-gray-400"> Aqui você encontra figurinos personalizadas dos jogadores do time para voce baixar.</p>
-                                    </a>
-                                    <a href="https://drive.google.com/drive/folders/1Z3PidCFqvr9FggAzUEdJkNqgLWtrd-eD?usp=drive_link" target="_blank" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
-                                        <h3 class="font-bold">ESTAMPAS</h3>
-                                        <p class="text-sm text-gray-400"> Aqui você encontra camisetas com estampas personalizadas do time no estilo Street.</p>
-                                    </a>
-                                    <a href="https://drive.google.com/drive/folders/1BNs1TjGhXATk8STdXLheeV3UIsTzaAkE?usp=drive_link" target="_blank" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
-                                        <h3 class="font-bold">BRASÃO DO TIME</h3>
-                                        <p class="text-sm text-gray-400"> Aqui você encontra o Novo Brasão do time Kendence para você baixar e compartilhar.</p>
-                                    </a>
+                                    ${Object.keys(galleryData).map(album => `
+                                        <button onclick="showAlbum('${album}')" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
+                                            <h3 class="font-bold">${album}</h3>
+                                        </button>
+                                    `).join('')}
                                 </div>
                             </div>
                         </div>
@@ -680,6 +742,98 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
             } else {
                 loginMessage.innerHTML = '<p class="text-red-500 font-bold">Login ou senha incorretos.</p>';
             }
+        }
+        
+        // Funções para a Galeria interna
+        let currentAlbum = '';
+
+        function showAlbum(albumName) {
+            const sectionsContainer = document.getElementById('sectionsContainer');
+            currentAlbum = albumName;
+            
+            const albumContent = galleryData[albumName].map(item => {
+                if (item.type === 'image') {
+                    return `
+                        <img src="${item.url}" onclick="showFullScreen('${item.url}')" class="w-full h-auto rounded-lg mb-2 cursor-pointer object-cover aspect-square">
+                    `;
+                } else if (item.type === 'video') {
+                     return `
+                        <video src="${item.url}" onclick="showFullScreen('${item.url}')" class="w-full h-auto rounded-lg mb-2 cursor-pointer object-cover aspect-square" controls></video>
+                    `;
+                }
+            }).join('');
+            
+            sectionsContainer.innerHTML = `
+                <div id="albumContainer" class="relative w-full h-full p-4">
+                    <button onclick="backToGallery()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
+                    <div class="flex flex-col items-center">
+                        <h2 class="text-xl font-bold mb-4 text-center mt-10">${albumName}</h2>
+                        <div class="grid grid-cols-2 gap-4 w-full overflow-y-auto">
+                            ${albumContent}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showFullScreen(url) {
+            const sectionsContainer = document.getElementById('sectionsContainer');
+            const sectionsContent = sectionsContainer.innerHTML;
+            sectionsContainer.classList.add('hide-on-click');
+
+            const fullScreenView = document.createElement('div');
+            fullScreenView.id = 'fullScreenView';
+            fullScreenView.classList.add('fixed', 'top-0', 'left-0', 'w-full', 'h-full', 'bg-black', 'bg-opacity-90', 'flex', 'items-center', 'justify-center', 'z-50');
+            fullScreenView.onclick = () => {
+                fullScreenView.remove();
+                sectionsContainer.classList.remove('hide-on-click');
+            };
+
+            let mediaHTML = '';
+            const mediaType = url.includes('.mp4') || url.includes('.mov') ? 'video' : 'image';
+            if (mediaType === 'image') {
+                mediaHTML = `<img src="${url}" class="max-w-full max-h-full object-contain">`;
+            } else {
+                mediaHTML = `<video src="${url}" class="max-w-full max-h-full object-contain" controls autoplay></video>`;
+            }
+
+            fullScreenView.innerHTML = `
+                <div class="relative w-full h-full flex items-center justify-center">
+                    ${mediaHTML}
+                    <button onclick="event.stopPropagation(); backToAlbum()" class="absolute top-4 left-4 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2">← Voltar</button>
+                </div>
+            `;
+            
+            document.body.appendChild(fullScreenView);
+        }
+
+        function backToAlbum() {
+            const fullScreenView = document.getElementById('fullScreenView');
+            if (fullScreenView) {
+                fullScreenView.remove();
+            }
+            document.getElementById('sectionsContainer').classList.remove('hide-on-click');
+        }
+
+        function backToGallery() {
+            const sectionsContainer = document.getElementById('sectionsContainer');
+            const galleryContent = `
+                <div id="galleryAlbums" class="relative w-full">
+                    <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
+                    <div class="flex flex-col items-center">
+                        <h2 class="text-xl font-bold mb-4 text-center mt-10">Galeria</h2>
+                        <p class="text-gray-200 text-center mb-4">Selecione uma pasta para ver as mídias.</p>
+                        <div class="space-y-4 overflow-y-auto w-full h-full">
+                            ${Object.keys(galleryData).map(album => `
+                                <button onclick="showAlbum('${album}')" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
+                                    <h3 class="font-bold">${album}</h3>
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            sectionsContainer.innerHTML = galleryContent;
         }
 
         
