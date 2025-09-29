@@ -63,10 +63,15 @@
             justify-content: center;
             padding: 1.5rem;
             min-height: 100vh;
-            max-width: 65rem;
+            max-width: 90%; /* Ajuste fino para responsividade */
             margin-left: auto;
             margin-right: auto;
             display: none;
+        }
+        @media (min-width: 768px) { /* Em telas maiores, limita a largura para não esticar demais */
+            .main-content {
+                max-width: 65rem;
+            }
         }
         .main-content.visible {
             display: flex;
@@ -90,6 +95,13 @@
             display: none;
         }
         .overflow-y-auto {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .overflow-x-auto::-webkit-scrollbar {
+            height: 0px;
+        }
+        .overflow-x-auto {
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
@@ -134,7 +146,7 @@
             <!-- Coloque a URL da sua imagem aqui -->
             <img src="https://lh3.googleusercontent.com/d/15O9GrJXb2wUYA_6bnJvK4CgVFxw0wY5y" alt="WhatsApp Icon" class="w-8 h-8 object-contain">
         </a>
-        <span class="whatsapp-text">Contato Rápido</span>
+        <span class="whatsapp-text">Contato</span>
     </div>
 
     <!-- Tela de Carregamento (Splash Screen) -->
@@ -149,7 +161,7 @@
     </div>
 
     <!-- Conteúdo Principal -->
-    <div id="mainContent" class="main-content min-h-screen flex-grow mx-auto p-6 overflow-y-auto visible">
+    <div id="mainContent" class="main-content min-h-screen flex-grow mx-auto px-2 overflow-y-auto visible">
         <header class="w-full text-white text-center">
             <img src="https://lh3.googleusercontent.com/d/1VWxltnrjX7tvAtukRy_54UYD4MGGuPxk" alt="Brasão do Kendence F.C." class="w-full object-cover mt-0">
         </header>
@@ -195,8 +207,21 @@
                 <div class="w-full text-center mb-4">
                 </div>
                 <div class="space-y-6 w-full" id="latestNews">
-                    <!-- Conteúdo será injetado aqui pelo JavaScript -->
+                    <!-- Conteúdo da notícia será injetado aqui pelo JavaScript -->
                 </div>
+                
+                <!-- Próximos Jogos -->
+                <h2 class="text-2xl font-bold mt-8 mb-4 text-center">Próximos Jogos</h2>
+                <div id="upcomingGames" class="flex overflow-x-auto space-x-4 pb-4">
+                    <!-- Cards de jogos futuros serão injetados aqui -->
+                </div>
+
+                <!-- Resultados Recentes -->
+                <h2 class="text-2xl font-bold mt-8 mb-4 text-center">Resultados Recentes</h2>
+                <div id="recentResults" class="flex overflow-x-auto space-x-4 pb-4">
+                    <!-- Cards de resultados recentes serão injetados aqui -->
+                </div>
+
             </div>
             
             <!-- Seção de Notícias completa - Oculta por padrão -->
@@ -261,57 +286,64 @@
             },
         ];
         
-        // Dados da Galeria
-        const galleryData = {
-            'WALLPAPERS': [
-                { url: 'https://lh3.googleusercontent.com/d/1rK4uWJhta0a6X4sBfN-T8ZOPvnbRuG32', type: 'image' },
-                { url: 'https://lh3.googleusercontent.com/d/1_5tKqttemH-IA0IYamMUIVDDRni-CQZB', type: 'image' }
-            ],
-            'FOTOS E VIDEOS': [
-                { url: 'https://lh3.googleusercontent.com/d/1BO6I_CFebDwwk0BRZmVJJ-LI3fzj6lEi', type: 'image' },
-                
-                { url: 'https://drive.google.com/file/d/1_60_-ZQIA6EiYrtkplgfdwBThAvNyq07/preview', type: 'video' },
-                { url: 'https://lh3.googleusercontent.com/d/1F4UyG1aHTKriPJPXeAn7lfEEYmzwYWdd', type: 'image' }
-            ],
-            'BRASÃO DO TIME': [
-                { url: 'https://lh3.googleusercontent.com/d/1BNs1TjGhXATk8STdXLheeV3UIsTzaAkE', type: 'image' },
-                { url: 'https://lh3.googleusercontent.com/d/1hJ2gN2uL0K8r0K9hF4q5yT6p0f_n1m3t', type: 'image' }
-            ],
-            'CAMISETAS': [
-                { url: 'https://lh3.googleusercontent.com/d/1Z3PidCFqvr9FggAzUEdJkNqgLWtrd-eD', type: 'image' },
-                { url: 'https://lh3.googleusercontent.com/d/1CqK9d0l3c2Xz9D7o2eR9O0o9z7b6d5c5', type: 'image' }
-            ],
-            'FIGURINHAS': [
-                { url: 'https://lh3.googleusercontent.com/d/1BTOeKlLyKpi8or4u2p5a3kxVI-KIQ5AG', type: 'image' },
-                { url: 'https://lh3.googleusercontent.com/d/1xP9TfP_3vB2a7v8fC6mQ5o9o5z7b6d5c5', type: 'image' }
-            ]
-        };
+        // Dados de Galeria para links diretos do Google Drive
+        const galleryFolders = [
+            { name: 'WALLPAPERS', driveLink: 'https://drive.google.com/drive/folders/1ujHIcc87gguhfM5-aZTzCI9MoJ-u4a-p?usp=drive_link' },
+            { name: 'FOTOS E VIDEOS', driveLink: 'https://drive.google.com/drive/folders/1MPieySZltQ69euP81L9o2V08wlC_4JQu?usp=drive_link' },
+            { name: 'BRASÃO DO TIME', driveLink: 'https://drive.google.com/drive/folders/1BNs1TjGhXATk8STdXLheeV3UIsTzaAkE?usp=drive_link' },
+            { name: 'CAMISETAS', driveLink: 'https://drive.google.com/drive/folders/1Z3PidCFqvr9FggAzUEdJkNqgLWtrd-eD?usp=drive_link' },
+            { name: 'FIGURINHAS', driveLink: 'https://drive.google.com/drive/folders/1BTOeKlLyKpi8or4u2p5a3kxVI-KIQ5AG?usp=drive_link' },
+        ];
+
+
+        // Dados de Próximos Jogos e Resultados Recentes
+        const upcomingGamesData = [
+            { date: '12/10 - 09:00', teams: 'Inter Santa Paula vs. Kendence', location: 'Campeonato Puro Sangue - Estrela 1', mapLink: 'https://maps.app.goo.gl/N4gLvagyD7w6HGrA9' },
+
+        ];
+
+        const recentResultsData = [
+            { date: '28/09 - 09:00', match: 'Altitude 1 x 1 Kendence', location: 'Campeonato Puro Sangue - Carecão', videoLink: 'https://drive.google.com/drive/folders/1mGU6qLrcD_sv7jX3lUga3v5ZmC3pk03j?usp=drive_link' },
+            { date: '21/09 - 10:00', match: 'Juventus 2 x 3 Kendence', location: 'Campeonato Puro Sangue - Estrela 2', videoLink: 'https://drive.google.com/drive/folders/1-FxljDek7aO-Mu4DO3GOp516QwTq1Ss_?usp=drive_link' },
+            { date: '14/09 - 10:00', match: 'D\'Fiori 1 x 2 Kendence', location: 'Campeonato Puro Sangue - Estrela 1', videoLink: 'https://drive.google.com/drive/folders/1fEnOzkYfJNuEqlZfWuT9wA8iP1OZdcC8?usp=drive_link' },
+        ];
+
 
         let currentNewsIndex = 0;
 
+        // Função para renderizar um único card de notícia na tela principal
         function renderSingleNews() {
             const container = document.getElementById('latestNews');
             const sortedNews = newsData.sort((a, b) => new Date(b.date) - new Date(a.date));
-            const newsToDisplay = sortedNews[currentNewsIndex];
+            // Pega apenas as 2 notícias mais recentes
+            const newsToCycle = sortedNews.slice(0, 2); 
+            
+            // Alterna entre as 2 mais recentes
+            const newsToDisplay = newsToCycle[currentNewsIndex]; 
+
+            if (!newsToDisplay) {
+                container.innerHTML = '<p class="text-center text-gray-400">Nenhuma notícia recente disponível.</p>';
+                return;
+            }
 
             container.innerHTML = `
                 <div class="bg-gray-800 p-4 rounded-lg shadow-md relative">
                     <span class="absolute top-2 right-2 text-xs text-gray-400">${newsToDisplay.date.split('-').reverse().join('/')}</span>
                     <h3 class="text-lg font-bold mb-2">${newsToDisplay.title}</h3>
                     <img src="${newsToDisplay.image}" alt="Foto da Notícia" class="w-full h-auto rounded-lg mb-2">
-                    <button onclick="readMore('${newsToDisplay.title}')" class="mt-4 bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg block mx-auto">LER MAIS</button>
+                    <button onclick="readMore('${newsToDisplay.title.replace(/'/g, "\\'")}')" class="mt-4 bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg block mx-auto">LER MAIS</button>
                 </div>
             `;
             
-            currentNewsIndex = (currentNewsIndex + 1) % 2; // Alterna entre 0 e 1
+            currentNewsIndex = (currentNewsIndex + 1) % newsToCycle.length; 
         }
 
-        function renderNews(containerId, count) {
+        // Função para renderizar todos os cards de notícia
+        function renderNews(containerId) {
             const container = document.getElementById(containerId);
             const sortedNews = newsData.sort((a, b) => new Date(b.date) - new Date(a.date));
-            const newsToDisplay = count ? sortedNews.slice(0, count) : sortedNews;
 
-            container.innerHTML = newsToDisplay.map(news => `
+            container.innerHTML = sortedNews.map(news => `
                 <div class="bg-gray-800 p-4 rounded-lg shadow-md relative">
                     <span class="absolute top-2 right-2 text-xs text-gray-400">${news.date.split('-').reverse().join('/')}</span>
                     <h3 class="text-lg font-bold mb-2">${news.title}</h3>
@@ -319,7 +351,36 @@
                     <p class="text-gray-300">
                         ${news.text}
                     </p>
-                    
+                </div>
+            `).join('');
+        }
+
+        // Função para renderizar os cards de próximos jogos
+        function renderUpcomingGames() {
+            const container = document.getElementById('upcomingGames');
+            container.innerHTML = upcomingGamesData.map(game => `
+                <div class="flex-none w-full sm:w-80 bg-gray-800 p-4 rounded-lg shadow-md">
+                    <p class="text-sm font-semibold">${game.date}</p>
+                    <h3 class="text-lg font-bold mt-1 mb-2">${game.teams}</h3>
+                    <p class="text-sm text-gray-400">${game.location}</p>
+                    <a href="${game.mapLink}" target="_blank" class="block mt-3 bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-3 rounded-lg text-center text-sm">
+                        Local Google Maps
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        // Função para renderizar os cards de resultados recentes
+        function renderRecentResults() {
+            const container = document.getElementById('recentResults');
+            container.innerHTML = recentResultsData.map(result => `
+                <div class="flex-none w-full sm:w-80 bg-gray-800 p-4 rounded-lg shadow-md">
+                    <p class="text-sm font-semibold">${result.date}</p>
+                    <h3 class="text-xl font-bold mt-1 mb-2">${result.match}</h3>
+                    <p class="text-sm text-gray-400">${result.location}</p>
+                    <a href="${result.videoLink}" target="_blank" class="block mt-3 bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-3 rounded-lg text-center text-sm">
+                        Ver melhores momentos
+                    </a>
                 </div>
             `).join('');
         }
@@ -329,15 +390,11 @@
             const newsSection = document.getElementById('newsSection');
             const navButtons = document.getElementById('navButtons');
             const fullNewsSection = document.getElementById('fullNewsSection');
-            const albumContainer = document.getElementById('albumContainer');
 
             sectionsContainer.classList.add('hidden');
             navButtons.classList.add('hidden');
             fullNewsSection.classList.add('hidden');
             newsSection.classList.remove('hidden');
-            if (albumContainer) {
-                albumContainer.remove();
-            }
         }
         
         function readMore(title) {
@@ -351,10 +408,11 @@
             
             fullNewsContent.innerHTML = `
                 <div class="bg-gray-800 p-4 rounded-lg shadow-md relative">
+                    <button onclick="backToNewsScreen()" class="absolute top-2 left-2 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
                     <span class="absolute top-2 right-2 text-xs text-gray-400">${news.date.split('-').reverse().join('/')}</span>
                     <h3 class="text-xl font-bold mb-2">${news.title}</h3>
                     <img src="${news.image}" alt="Foto da Notícia" class="w-full h-auto rounded-lg mb-2">
-                    <p class="text-gray-300">
+                    <p class="text-gray-300 mt-4">
                         ${news.text}
                     </p>
                 </div>
@@ -399,7 +457,9 @@
                 splashScreen.classList.add('hidden');
                 mainContent.classList.add('visible');
                 renderSingleNews();
-                setInterval(renderSingleNews, 6000);
+                renderUpcomingGames();
+                renderRecentResults();
+                setInterval(renderSingleNews, 7000);
             }, 3000);
         };
 
@@ -566,18 +626,18 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                     `;
                     break;
                 case 'gallery':
-                    // Adicionando a nova estrutura da galeria
+                    // Estrutura para links diretos do Google Drive
                     contentHTML = `
                         <div id="galleryAlbums" class="relative w-full">
                             <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
                             <div class="flex flex-col items-center">
                                 <h2 class="text-xl font-bold mb-4 text-center mt-10">Galeria</h2>
-                                <p class="text-gray-200 text-center mb-4">Selecione uma pasta para ver as mídias.</p>
+                                <p class="text-gray-200 text-center mb-4">Selecione uma pasta para ver as mídias (Link Google Drive).</p>
                                 <div class="space-y-4 overflow-y-auto w-full h-full">
-                                    ${Object.keys(galleryData).map(album => `
-                                        <button onclick="showAlbum('${album}')" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
-                                            <h3 class="font-bold">${album}</h3>
-                                        </button>
+                                    ${galleryFolders.map(folder => `
+                                        <a href="${folder.driveLink}" target="_blank" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
+                                            <h3 class="font-bold">${folder.name}</h3>
+                                        </a>
                                     `).join('')}
                                 </div>
                             </div>
@@ -599,7 +659,7 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                                     <p class="text-white text-sm">
                                         <strong>Telefone:</strong> (43) 99908-9430
                                     </p>
-                                    <a href="https://www.instagram.com/braza_nobre/#" target="_blank" class="block w-full mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
+                                    <a href="https://www.instagram.com/braza_nobre/#" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
                                         Instagram
                                     </a>
                                 </div>
@@ -613,7 +673,7 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                                     <p class="text-white text-sm">
                                         <strong>Telefone:</strong> (43) 3158-5656
                                     </p>
-                                    <a href="https://www.instagram.com/bichinho_chic_petshop/#" target="_blank" class="block w-full mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
+                                    <a href="https://www.instagram.com/bichinho_chic_petshop/#" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
                                         Instagram
                                     </a>
                                 </div>
@@ -627,7 +687,7 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                                     <p class="text-white text-sm">
                                         <strong>Telefone:</strong> (43)3159-0091
                                     </p>
-                                    <a href="https://www.instagram.com/tikdogsjataizinho/#" target="_blank" class="block w-full mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
+                                    <a href="https://www.instagram.com/tikdogsjataizinho/#" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
                                         Instagram
                                     </a>
                                  </div>
@@ -641,7 +701,7 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                                     <p class="text-white text-sm">
                                         <strong>Telefone:</strong> (43) 99616-6692
                                     </p>
-                                    <a href="https://www.instagram.com/gilsinhobeer/#" target="_blank" class="block w-full mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
+                                    <a href="https://www.instagram.com/gilsinhobeer/#" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
                                         Instagram
                                     </a>
                                  </div>
@@ -655,7 +715,7 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                                     <p class="text-white text-sm">
                                         <strong>Telefone:</strong> (43) 3268-0068
                                     </p>
-                                    <a href="https://www.instagram.com/autoescolavega/#" target="_blank" class="block w-full mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
+                                    <a href="https://www.instagram.com/autoescolavega/#" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
                                         Instagram
                                     </a>
                                  </div>
@@ -669,7 +729,7 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                                     <p class="text-white text-sm">
                                         <strong>Telefone:</strong> (43) 99837-7736
                                     </p>
-                                    <a href="https://www.instagram.com/agnaldo.pereira.753329/?__pwa=1##" target="_blank" class="block w-full mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
+                                    <a href="https://www.instagram.com/agnaldo.pereira.753329/?__pwa=1##" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
                                         Instagram
                                     </a>
                                 </div>
@@ -790,7 +850,7 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
             };
 
             let mediaHTML = '';
-            const mediaType = url.includes('.mp4') || url.includes('.mov') ? 'video' : 'image';
+            const mediaType = url.includes('.mp4') || url.includes('.mov') || url.includes('video') ? 'video' : 'image';
             if (mediaType === 'image') {
                 mediaHTML = `<img src="${url}" class="max-w-full max-h-full object-contain">`;
             } else {
@@ -824,10 +884,10 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                         <h2 class="text-xl font-bold mb-4 text-center mt-10">Galeria</h2>
                         <p class="text-gray-200 text-center mb-4">Selecione uma pasta para ver as mídias.</p>
                         <div class="space-y-4 overflow-y-auto w-full h-full">
-                            ${Object.keys(galleryData).map(album => `
-                                <button onclick="showAlbum('${album}')" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
-                                    <h3 class="font-bold">${album}</h3>
-                                </button>
+                            ${galleryFolders.map(folder => `
+                                <a href="${folder.driveLink}" target="_blank" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
+                                    <h3 class="font-bold">${folder.name}</h3>
+                                </a>
                             `).join('')}
                         </div>
                     </div>
