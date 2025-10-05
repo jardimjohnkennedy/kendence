@@ -136,6 +136,12 @@
             font-size: 0.75rem; /* text-xs */
             color: white;
         }
+        .back-btn-container {
+            position: absolute;
+            top: 1rem; /* Ajuste para espaçamento do topo */
+            left: 1rem; /* Ajuste para espaçamento da esquerda */
+            z-index: 10;
+        }
     </style>
 </head>
 <body>
@@ -226,7 +232,7 @@
             
             <!-- Seção de Notícias completa - Oculta por padrão -->
             <div id="fullNewsSection" class="mt-8 p-4 rounded-lg shadow-inner section-container overflow-y-auto w-full h-full hidden">
-                 <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-transparent hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
+                 <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-transparent hover:bg-gray-700 rounded-full px-4 py-2 ml-2"></button>
                 <h2 class="text-xl font-bold mb-4 text-center mt-5">Notícias Completas</h2>
                 <div class="space-y-6 w-full" id="fullNews">
                      <!-- Conteúdo será injetado aqui pelo JavaScript -->
@@ -247,6 +253,9 @@
     </div>
 
     <script>
+        // =======================================================================
+        // 1. DADOS E CONTEÚDO
+        // =======================================================================
         const newsData = [
                         {
                 date: '2025-09-28',
@@ -276,7 +285,7 @@
                 date: '2025-09-27',
                 title: 'Seja um patrocinador do Kendence F.C.!',
                 image: 'https://lh3.googleusercontent.com/d/1gQnw3v9ULNRkp53NLw2Yt9RJ7icVI9DH',
-                text: '<p> O Kendense, time do bairro John Kennedy, está em busca de patrocinadores para fortalecer ainda mais nossa caminhada dentro e fora de campo. 🙌<p> <p> Sua empresa pode fazer parte dessa história, ajudando na compra de equipamentos, medicamentos, uniformes e outras necessidades do time. Em troca, oferecemos uma divulgação constante e próxima da comunidade:<p> <p>✨ Benefícios para patrocinadores mensais ou de temporada:<p> <p>* Exposição da logomarca em banners no dia dos jogos.<p> <p>* Destaque da marca no nosso Instagram oficial.<p> <p>* Repostagem semanal de stories da empresa.<p> <p>* Propaganda com endereço e contato no site oficial do Kendense.<p <p>* Inclusão da logomarca no uniforme do time (quando fabricados).<p> <p>* Divulgação em grupos da comunidade e menções nas postagens de resultados e eventos.<p> <p> 👉 Patrocinadores mensais recebem os benefícios mês a mês.<p> <p> 👉 Patrocinadores de temporada têm seus nomes marcados até o fim do campeonato!<p> <p>💡 E mais: estamos abertos a novas ideias que possam valorizar ainda mais essa parceria.<p> <p> 📲 Entre em contato e venha mostrar sua marca no esporte que move nossa comunidade!<p> <p> Kendense Futebol – Muito mais que um time, uma família!<p>'
+                text: 'Você garante divulgação da sua marca em nossos posts no Instagram, Sua logo estampada em todos os cartazes oficiais do time, marcação da sua empresa em cada publicação, Presença junto com a nossa torcida e nossos jogadores. 👉 Venha fazer parte da nossa história! Entre em contato e seja um patrocinador oficial do Kendence F.C.'
             },
             {
                 date: '2025-09-05',
@@ -299,7 +308,6 @@
         // Dados de Próximos Jogos e Resultados Recentes
         const upcomingGamesData = [
             { date: '12/10 - 09:00', teams: 'Inter Santa Paula vs. Kendence', location: 'Campeonato Puro Sangue - Estrela 1', mapLink: 'https://maps.app.goo.gl/N4gLvagyD7w6HGrA9' },
-
         ];
 
         const recentResultsData = [
@@ -309,16 +317,376 @@
         ];
 
 
+        // =======================================================================
+        // 2. CONTEÚDO DAS SEÇÕES (Refatorado para facilitar a edição)
+        // =======================================================================
+        
+        const PLAYERS_CONTENT = `
+            <div class="relative w-full p-4">
+                <div class="back-btn-container">
+                    <button onclick="backToNewsScreen()" class="text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2">← Voltar</button>
+                </div>
+                <div class="flex flex-col items-center pt-10">
+                    <h2 class="text-xl font-bold mb-4 text-center">Comissão Técnica e Jogadores</h2>
+                    <div class="space-y-4 overflow-y-auto w-full h-full">
+                        <!-- Comissão Técnica -->
+                        <h3 class="text-lg font-bold mt-4">Comissão Técnica</h3>
+                        <a href="https://www.instagram.com/gustasouza2218/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://lh3.googleusercontent.com/d/1Atpzw-JGpITkLgl0LwAA4wxOt7vyCOY-" alt="Técnico Gustavo" class="w-11 h-11 rounded-full mr-2">
+                            Técnico: Gustavo
+                        </a>
+                        <a href="https://www.instagram.com/samueel_vini/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://lh3.googleusercontent.com/d/1hrY4voJHk3oC2bKIxpaQLbu7daFJVX_S" alt="Auxiliar Vinicios" class="w-11 h-11 rounded-full mr-2">
+                            Auxiliar: Vinicios
+                        </a>
+                        <a href="https://www.instagram.com/luanschiasse/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://lh3.googleusercontent.com/d/1UYi3T1kZ-ZF8TVIcOje6bC-fnh8821Yq" alt="Auxiliar Luan" class="w-11 h-11 rounded-full mr-2">
+                            Auxiliar: Luan
+                        </a>
+                        <a href="https://www.instagram.com/andersomyoshi/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://lh3.googleusercontent.com/d/1uCGv7vaq4kv0BocSXC0CpE1VP-Z5jfrP" alt="Marketing A.Yoshi" class="w-11 h-11 rounded-full mr-2">
+                            Marketing: A.Yoshi
+                        </a>
+                        
+                        <!-- Goleiros -->
+                        <h3 class="text-lg font-bold mt-4">Goleiros</h3>
+                        <a href="https://www.instagram.com/lk_pacini?igsh=dWdrcGVhdDIwOG95&utm_source=qr" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://placehold.co/32x32/gray/white?text=LP" alt="Lukas Pacini" class="w-11 h-11 rounded-full mr-2">
+                            Lukas Pacini
+                        </a>
+                        <a href="https://www.instagram.com/_pedro_antoniio/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://placehold.co/32x32/gray/white?text=PD" alt="Pedro" class="w-11 h-11 rounded-full mr-2">
+                            Pedro
+                        </a>
+                        
+                        <!-- Zagueiro e Volante -->
+                        <h3 class="text-lg font-bold mt-4">Zagueiros e Volantes</h3>
+                        <a href="https://www.instagram.com/valdirpatoroco/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://lh3.googleusercontent.com/d/1yFEpaGeRO_7mrC9fZUstZlYXCk0kluAd" alt="Valdir" class="w-11 h-11 rounded-full mr-2">
+                            Valdir
+                        </a>
+                        <a href="https://www.instagram.com/theus7x/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://lh3.googleusercontent.com/d/1P626SpshWdV-uupbciidoRpNq2Kedo6A" alt="Matheus" class="w-11 h-11 rounded-full mr-2">
+                            Matheus
+                        </a>
+                        <a href="https://www.instagram.com/bernini_hiago06/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://placehold.co/32x32/gray/white?text=HG" alt="Hiago" class="w-11 h-11 rounded-full mr-2">
+                            Hiago
+                        </a>
+                        <a href="https://www.instagram.com/douglassilva8764/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://lh3.googleusercontent.com/d/1EtkfiQs4jzjHKH-SZuru-W4AlAEIyp-2" alt="Douglas" class="w-11 h-11 rounded-full mr-2">
+                            Douglas
+                        </a>
+                        
+                        <!-- Lateral -->
+                        <h3 class="text-lg font-bold mt-4">Laterais</h3>
+                        <a href="https://www.instagram.com/edilsongomes64/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://placehold.co/32x32/gray/white?text=ED" alt="Edilson" class="w-11 h-11 rounded-full mr-2">
+                            Edilson
+                        </a>
+                        <a href="https://www.instagram.com/rafinharsh/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://lh3.googleusercontent.com/d/1QlmybXTj9Bl6LWX_7XNhtpBqfE0SzNfu" alt="Rafinha" class="w-11 h-11 rounded-full mr-2">
+                            Rafinha
+                        </a>
+                        <a href="https://www.instagram.com/vianasouza2010/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://lh3.googleusercontent.com/d/1tUfBbm4y0kKsjp-1Ts34XZMl2JzGzvD6" alt="Edmar" class="w-11 h-11 rounded-full mr-2">
+                            Edmar
+                        </a>
+                        <a href="https://www.instagram.com/bruninhohenrique1998/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://lh3.googleusercontent.com/d/11B-L0UHRXW8MJsaZ6nyel-WzFeSr3tDo" alt="Bruno" class="w-11 h-11 rounded-full mr-2">
+                            Bruno
+                        </a>
+                        <a href="https://www.facebook.com/thiago.santos.277166" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://lh3.googleusercontent.com/d/1SnLBEcv09NjJv9AOaP8G-lL7gYHDfZwE" alt="Thiago" class="w-11 h-11 rounded-full mr-2">
+                            Thiago
+                        </a>
+                        
+                        <!-- Meios -->
+                        <h3 class="text-lg font-bold mt-4">Meios</h3>
+                        <a href="https://www.instagram.com/brendon_stork/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://lh3.googleusercontent.com/d/1YCuNcv0m7amKqeRd9GRHjQ0v2BP2j4_a" alt="Brendon Stork" class="w-11 h-11 rounded-full mr-2">
+                            Brendon Stork
+                        </a>
+                        <a href="https://www.instagram.com/gabrielstorck_/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://lh3.googleusercontent.com/d/1TG-4wS1Melq5TFWE1bjcs2YT5NoruHfM" alt="Biel" class="w-11 h-11 rounded-full mr-2">
+                            Gabriel Storck
+                        </a>
+                        <a href="https://www.instagram.com/leonardo_fl10/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://lh3.googleusercontent.com/d/1M5M1n9oJ32DFOeBHZVFc6lCwjxU8dIcn" alt="L10" class="w-11 h-11 rounded-full mr-2">
+                            L10
+                        </a>
+                        
+                        <!-- Atacantes -->
+                        <h3 class="text-lg font-bold mt-4">Atacantes</h3>
+                        <a href="https://www.instagram.com/brunohenrique14/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://placehold.co/32x32/gray/white?text=BT" alt="Bruno Henrique" class="w-11 h-11 rounded-full mr-2">
+                            Bruno Henrique
+                        </a>
+                        <a href="https://www.instagram.com/juarezdemouragomes/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
+                            <img src="https://lh3.googleusercontent.com/d/1gDEc0xlddV-jN3iu3tKkcleyj2zM88i8" alt="Juca" class="w-11 h-11 rounded-full mr-2">
+                            Juca
+                        </a>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const HISTORY_CONTENT = `
+            <div class="relative w-full p-4">
+                <div class="back-btn-container">
+                    <button onclick="backToNewsScreen()" class="text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2">← Voltar</button>
+                </div>
+                <div class="flex flex-col items-center pt-10">
+                    <h2 class="text-xl font-bold mb-4 text-center">História do Clube</h2>
+                    <img src="https://lh3.googleusercontent.com/d/19tMWJUs5rl403bm4Qz7R3Vep8Lg14qYV" alt="Imagem da História do Clube" class="w-full h-auto rounded-lg mb-4">
+                    <div class="space-y-4 overflow-y-auto w-full h-full">
+                        <p class="text-gray-200"> Fundado em 1987, no Jardim John Kennedy, em Ibiporã – Paraná, o time surgiu com o nome Meninos do Kennedy, carregando a identidade e a união do bairro. Em 2015, passou por uma repaginada e adotou o nome Kendence Futebol Clube, referência direta às suas raízes.
+
+Ao longo da trajetória, o Kendence F.C. construiu respeito e tradição no futebol amador, acumulando conquistas e boas campanhas:🏆 Campeão Bronze – 2017, 🥈 Vice-Campeão Jataizinho – 2018, 🥈 Vice-Campeão Motor Parts (Prata) – 2023, 🥈 Vice-Campeão Municipal – Divisão Prata – 2024
+Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão e compromisso, sempre em busca de novas vitórias.</p>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const SOCIAL_CONTENT = `
+            <div class="relative w-full p-4">
+                <div class="back-btn-container">
+                    <button onclick="backToNewsScreen()" class="text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2">← Voltar</button>
+                </div>
+                <div class="flex flex-col items-center pt-10">
+                    <h2 class="text-xl font-bold mb-4 text-center">Redes Sociais</h2>
+                    <div class="space-y-4 w-full">
+                        <a href="https://www.youtube.com/channel/UCVG6kWDq2JIdurnN7LIgmPQ" target="_blank" class="block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg text-center">
+                            YouTube
+                        </a>
+                        <a href="https://www.instagram.com/kendence2015/?__pwa=1#" target="_blank" class="block bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
+                            Instagram
+                        </a>
+                        <button onclick="showSection('user-login')" class="block w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg text-center">
+                            Usuário (Acesso Restrito)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const SPONSORSHIP_CONTENT = `
+            <div class="relative w-full p-4">
+                <div class="back-btn-container">
+                    <button onclick="backToNewsScreen()" class="text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2">← Voltar</button>
+                </div>
+                <div class="flex flex-col items-center pt-10">
+                    <h2 class="text-xl font-bold mb-4 text-center">Patrocinadores</h2>
+                    
+                    <!-- Braza Nobre -->
+                    <img src="https://lh3.googleusercontent.com/d/16rqprm9c1ePfhP5BCS2FdSxO-sN8OgrJ" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
+                    <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
+                        <h3 class="text-lg font-bold mb-2">Braza Nobre</h3>
+                        <p class="text-white text-sm">
+                            <strong>Endereço:</strong> Av. Ibrahim prudente da Silva 1905 - Ibiporã-PR
+                        </p>
+                        <p class="text-white text-sm">
+                            <strong>Telefone:</strong> (43) 99908-9430
+                        </p>
+                        <a href="https://www.instagram.com/braza_nobre/#" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
+                            Instagram
+                        </a>
+                    </div>
+                    
+                    <!-- Bichinho Chique -->
+                    <h2 class="text-xl font-bold mb-4 text-center mt-10"></h2>
+                    <img src="https://lh3.googleusercontent.com/d/10lYW_LMsE6WgZSbIOLE0J2eirlmaMF8J" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
+                    <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
+                        <h3 class="text-lg font-bold mb-2">Bichinho Chique</h3>
+                        <p class="text-white text-sm">
+                            <strong>Endereço:</strong> R. João Barretos 427 - Ibiporã-PR
+                        </p>
+                        <p class="text-white text-sm">
+                            <strong>Telefone:</strong> (43) 3158-5656
+                        </p>
+                        <a href="https://www.instagram.com/bichinho_chic_petshop/#" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
+                            Instagram
+                        </a>
+                    </div>
+                    
+                    <!-- Tik Dogs -->
+                    <h2 class="text-xl font-bold mb-4 text-center mt-10"></h2>
+                    <img src="https://lh3.googleusercontent.com/d/1auLJecFd5CuJxlzOZ0HJ6HB-_kUK9WKC" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
+                    <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
+                        <h3 class="text-lg font-bold mb-2">Tik Dogs</h3>
+                        <p class="text-white text-sm">
+                            <strong>Endereço:</strong> Praça Frei Timóteo, 51 Centro - Jataizinho-PR
+                        </p>
+                        <p class="text-white text-sm">
+                            <strong>Telefone:</strong> (43)3159-0091
+                        </p>
+                        <a href="https://www.instagram.com/tikdogsjataizinho/#" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
+                            Instagram
+                        </a>
+                    </div>
+                    
+                    <!-- Gilsinho Beer -->
+                    <h2 class="text-xl font-bold mb-4 text-center mt-10"></h2>
+                    <img src="https://lh3.googleusercontent.com/d/1zBKx8pDB208dXkx2_kOH06SeopDmQbay" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
+                    <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
+                        <h3 class="text-lg font-bold mb-2">Gilsinho Beer </h3>
+                        <p class="text-white text-sm">
+                            <strong>Endereço:</strong> R. Foz do Iguaçú, Jd. John Kennedy - Ibiporã-PR,
+                        </p>
+                        <p class="text-white text-sm">
+                            <strong>Telefone:</strong> (43) 99616-6692
+                        </p>
+                        <a href="https://www.instagram.com/gilsinhobeer/#" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
+                            Instagram
+                        </a>
+                    </div>
+                    
+                    <!-- Auto Escola VEGA -->
+                    <h2 class="text-xl font-bold mb-4 text-center mt-10"></h2>
+                    <img src="https://lh3.googleusercontent.com/d/1oOvS9NjQ5hX-609-PpdP_p7mLjBh5MJG" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
+                    <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
+                        <h3 class="text-lg font-bold mb-2">Auto Escola VEGA </h3>
+                        <p class="text-white text-sm">
+                            <strong>Endereço:</strong> Avenida dos Estudantes, 551, Centro - Ibiporã-PR,
+                        </p>
+                        <p class="text-white text-sm">
+                            <strong>Telefone:</strong> (43) 3268-0068
+                        </p>
+                        <a href="https://www.instagram.com/autoescolavega/#" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
+                            Instagram
+                        </a>
+                    </div>
+                    
+                    <!-- Agnaldo Construção e reforma -->
+                    <h2 class="text-xl font-bold mb-4 text-center mt-10"></h2>
+                    <img src="https://lh3.googleusercontent.com/d/1c8hJimr2yTO8TgpWwdyIpJLDoKmgGtqD" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
+                    <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
+                        <h3 class="text-lg font-bold mb-2">Agnaldo Construção e reforma </h3>
+                        <p class="text-white text-sm">
+                            <strong>Endereço:</strong> R. Foz do Iguaçú, Jd. John Kennedy - Ibiporã-PR,
+                        </p>
+                        <p class="text-white text-sm">
+                            <strong>Telefone:</strong> (43) 99837-7736
+                        </p>
+                        <a href="https://www.instagram.com/agnaldo.pereira.753329/?__pwa=1##" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
+                            Instagram
+                        </a>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const GALLERY_CONTENT = `
+            <div id="galleryAlbums" class="relative w-full p-4">
+                <div class="back-btn-container">
+                    <button onclick="backToNewsScreen()" class="text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2">← Voltar</button>
+                </div>
+                <div class="flex flex-col items-center pt-10">
+                    <h2 class="text-xl font-bold mb-4 text-center">Galeria</h2>
+                    <p class="text-gray-200 text-center mb-4">Selecione uma pasta para ver as mídias (Link Google Drive).</p>
+                    <div class="space-y-4 overflow-y-auto w-full h-full">
+                        ${galleryFolders.map(folder => `
+                            <a href="${folder.driveLink}" target="_blank" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
+                                <h3 class="font-bold">${folder.name}</h3>
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        const LOGIN_CONTENT = `
+            <div class="relative w-full p-4">
+                <div class="back-btn-container">
+                    <button onclick="backToNewsScreen()" class="text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2">← Voltar</button>
+                </div>
+                <div class="flex flex-col items-center pt-10">
+                    <h2 class="text-xl font-bold mb-4 text-center">Acesso Restrito</h2>
+                    <form onsubmit="handleLogin(event)" class="space-y-4 w-full">
+                        <input type="text" id="username" placeholder="Login" class="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="password" id="password" placeholder="Senha" class="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg">Entrar</button>
+                    </form>
+                    <div id="loginMessage" class="mt-4 text-center"></div>
+                </div>
+            </div>
+        `;
+
+        const FULL_NEWS_TEMPLATE = `
+            <div class="relative w-full p-4">
+                <div class="back-btn-container">
+                    <button onclick="backToNewsScreen()" class="text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2">← Voltar</button>
+                </div>
+                <div class="flex flex-col items-center pt-10">
+                    <h2 class="text-xl font-bold mb-4 text-center">Notícias Completas</h2>
+                    <div class="space-y-6 w-full" id="fullNewsContent">
+                        <!-- Conteúdo será injetado aqui pelo renderNews -->
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // =======================================================================
+        // 3. FUNÇÕES DE NAVEGAÇÃO E LÓGICA
+        // =======================================================================
+
         let currentNewsIndex = 0;
 
-        // Função para renderizar um único card de notícia na tela principal
+        // Função principal que exibe o conteúdo das seções
+        function showSection(section) {
+            const navButtons = document.getElementById('navButtons');
+            const sectionsContainer = document.getElementById('sectionsContainer');
+            const newsSection = document.getElementById('newsSection');
+            const fullNewsSection = document.getElementById('fullNewsSection');
+
+            // 1. Limpa e esconde as seções
+            navButtons.classList.add('hidden');
+            sectionsContainer.innerHTML = '';
+            sectionsContainer.classList.remove('hidden');
+            newsSection.classList.add('hidden');
+            fullNewsSection.classList.add('hidden');
+
+            let contentHTML = '';
+
+            // 2. Seleciona o conteúdo refatorado
+            switch(section) {
+                case 'players':
+                    contentHTML = PLAYERS_CONTENT;
+                    break;
+                case 'history':
+                    contentHTML = HISTORY_CONTENT;
+                    break;
+                case 'social':
+                    contentHTML = SOCIAL_CONTENT;
+                    break;
+                case 'sponsorship':
+                    contentHTML = SPONSORSHIP_CONTENT;
+                    break;
+                case 'gallery':
+                    contentHTML = GALLERY_CONTENT;
+                    break;
+                case 'user-login':
+                    contentHTML = LOGIN_CONTENT;
+                    break;
+                case 'fullNews':
+                    // Requer lógica separada para renderizar todas as notícias
+                    sectionsContainer.innerHTML = FULL_NEWS_TEMPLATE;
+                    renderNews('fullNewsContent');
+                    return; // Sai da função após renderizar o fullNews
+            }
+
+            // 3. Insere o conteúdo na seção
+            sectionsContainer.innerHTML = contentHTML;
+        }
+
+
+        // Outras funções (renderização de dados, login, etc.)
+        
         function renderSingleNews() {
             const container = document.getElementById('latestNews');
             const sortedNews = newsData.sort((a, b) => new Date(b.date) - new Date(a.date));
-            // Pega apenas as 2 notícias mais recentes
             const newsToCycle = sortedNews.slice(0, 2); 
-            
-            // Alterna entre as 2 mais recentes
             const newsToDisplay = newsToCycle[currentNewsIndex]; 
 
             if (!newsToDisplay) {
@@ -338,7 +706,6 @@
             currentNewsIndex = (currentNewsIndex + 1) % newsToCycle.length; 
         }
 
-        // Função para renderizar todos os cards de notícia
         function renderNews(containerId) {
             const container = document.getElementById(containerId);
             const sortedNews = newsData.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -355,7 +722,6 @@
             `).join('');
         }
 
-        // Função para renderizar os cards de próximos jogos
         function renderUpcomingGames() {
             const container = document.getElementById('upcomingGames');
             container.innerHTML = upcomingGamesData.map(game => `
@@ -370,7 +736,6 @@
             `).join('');
         }
 
-        // Função para renderizar os cards de resultados recentes
         function renderRecentResults() {
             const container = document.getElementById('recentResults');
             container.innerHTML = recentResultsData.map(result => `
@@ -379,7 +744,7 @@
                     <h3 class="text-xl font-bold mt-1 mb-2">${result.match}</h3>
                     <p class="text-sm text-gray-400">${result.location}</p>
                     <a href="${result.videoLink}" target="_blank" class="block mt-3 bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-3 rounded-lg text-center text-sm">
-                        Galeria do jogo
+                        Ver melhores momentos
                     </a>
                 </div>
             `).join('');
@@ -408,9 +773,11 @@
             
             fullNewsContent.innerHTML = `
                 <div class="bg-gray-800 p-4 rounded-lg shadow-md relative">
-                    <button onclick="backToNewsScreen()" class="absolute top-2 left-2 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
+                    <div class="back-btn-container">
+                        <button onclick="backToNewsScreen()" class="text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2">← Voltar</button>
+                    </div>
                     <span class="absolute top-2 right-2 text-xs text-gray-400">${news.date.split('-').reverse().join('/')}</span>
-                    <h3 class="text-xl font-bold mb-2">${news.title}</h3>
+                    <h3 class="text-xl font-bold mb-2 mt-10">${news.title}</h3>
                     <img src="${news.image}" alt="Foto da Notícia" class="w-full h-auto rounded-lg mb-2">
                     <p class="text-gray-300 mt-4">
                         ${news.text}
@@ -462,320 +829,7 @@
                 setInterval(renderSingleNews, 7000);
             }, 3000);
         };
-
-        function showSection(section) {
-            const navButtons = document.getElementById('navButtons');
-            const sectionsContainer = document.getElementById('sectionsContainer');
-            const newsSection = document.getElementById('newsSection');
-            const fullNewsSection = document.getElementById('fullNewsSection');
-
-            navButtons.classList.add('hidden');
-            sectionsContainer.innerHTML = '';
-            sectionsContainer.classList.remove('hidden');
-            newsSection.classList.add('hidden');
-            fullNewsSection.classList.add('hidden');
-
-            let contentHTML = '';
-
-            switch(section) {
-                case 'players':
-                    contentHTML = `
-                        <div class="relative w-full">
-                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-transparent hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
-                            <div class="flex flex-col items-center">
-                                <h2 class="text-xl font-bold mb-4 text-center mt-10">Comissão Técnica e Jogadores</h2>
-                                <div class="space-y-4 overflow-y-auto w-full h-full">
-                                    <!-- Comissão Técnica -->
-                                    <h3 class="text-lg font-bold mt-4">Comissão Técnica</h3>
-                                    <a href="https://www.instagram.com/gustasouza2218/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://lh3.googleusercontent.com/d/1Atpzw-JGpITkLgl0LwAA4wxOt7vyCOY-" alt="Técnico Gustavo" class="w-11 h-11 rounded-full mr-2">
-                                        Técnico: Gustavo
-                                    </a>
-                                    <a href="https://www.instagram.com/samueel_vini/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://lh3.googleusercontent.com/d/1hrY4voJHk3oC2bKIxpaQLbu7daFJVX_S" alt="Auxiliar Vinicios" class="w-11 h-11 rounded-full mr-2">
-                                        Auxiliar: Vinicios
-                                    </a>
-                                    <a href="https://www.instagram.com/luanschiasse/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://lh3.googleusercontent.com/d/1UYi3T1kZ-ZF8TVIcOje6bC-fnh8821Yq" alt="Auxiliar Luan" class="w-11 h-11 rounded-full mr-2">
-                                        Auxiliar: Luan
-                                    </a>
-                                    <a href="https://www.instagram.com/andersomyoshi/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://lh3.googleusercontent.com/d/1uCGv7vaq4kv0BocSXC0CpE1VP-Z5jfrP" alt="Marketing A.Yoshi" class="w-11 h-11 rounded-full mr-2">
-                                        Marketing: A.Yoshi
-                                    </a>
-                                    
-                                    <!-- Goleiros -->
-                                    <h3 class="text-lg font-bold mt-4">Goleiros</h3>
-                                    <a href="https://www.instagram.com/lk_pacini?igsh=dWdrcGVhdDIwOG95&utm_source=qr" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://placehold.co/32x32/gray/white?text=LP" alt="Lukas Pacini" class="w-11 h-11 rounded-full mr-2">
-                                        Lukas Pacini
-                                    </a>
-                                    <a href="https://www.instagram.com/_pedro_antoniio/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://placehold.co/32x32/gray/white?text=PD" alt="Pedro" class="w-11 h-11 rounded-full mr-2">
-                                        Pedro
-                                    </a>
-                                    
-                                    <!-- Zagueiro e Volante -->
-                                    <h3 class="text-lg font-bold mt-4">Zagueiros e Volantes</h3>
-                                    <a href="https://www.instagram.com/valdirpatoroco/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://lh3.googleusercontent.com/d/1yFEpaGeRO_7mrC9fZUstZlYXCk0kluAd" alt="Valdir" class="w-11 h-11 rounded-full mr-2">
-                                        Valdir
-                                    </a>
-                                    <a href="https://www.instagram.com/theus7x/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://lh3.googleusercontent.com/d/1P626SpshWdV-uupbciidoRpNq2Kedo6A" alt="Matheus" class="w-11 h-11 rounded-full mr-2">
-                                        Matheus
-                                    </a>
-                                    <a href="https://www.instagram.com/bernini_hiago06/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://placehold.co/32x32/gray/white?text=HG" alt="Hiago" class="w-11 h-11 rounded-full mr-2">
-                                        Hiago
-                                    </a>
-                                    <a href="https://www.instagram.com/douglassilva8764/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://lh3.googleusercontent.com/d/1EtkfiQs4jzjHKH-SZuru-W4AlAEIyp-2" alt="Douglas" class="w-11 h-11 rounded-full mr-2">
-                                        Douglas
-                                    </a>
-                                    
-                                    <!-- Lateral -->
-                                    <h3 class="text-lg font-bold mt-4">Laterais</h3>
-                                    <a href="https://www.instagram.com/edilsongomes64/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://placehold.co/32x32/gray/white?text=ED" alt="Edilson" class="w-11 h-11 rounded-full mr-2">
-                                        Edilson
-                                    </a>
-                                    <a href="https://www.instagram.com/rafinharsh/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://lh3.googleusercontent.com/d/1QlmybXTj9Bl6LWX_7XNhtpBqfE0SzNfu" alt="Rafinha" class="w-11 h-11 rounded-full mr-2">
-                                        Rafinha
-                                    </a>
-                                    <a href="https://www.instagram.com/vianasouza2010/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://lh3.googleusercontent.com/d/1tUfBbm4y0kKsjp-1Ts34XZMl2JzGzvD6" alt="Edmar" class="w-11 h-11 rounded-full mr-2">
-                                        Edmar
-                                    </a>
-                                    <a href="https://www.instagram.com/bruninhohenrique1998/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://lh3.googleusercontent.com/d/11B-L0UHRXW8MJsaZ6nyel-WzFeSr3tDo" alt="Bruno" class="w-11 h-11 rounded-full mr-2">
-                                        Bruno
-                                    </a>
-                                    <a href="https://www.facebook.com/thiago.santos.277166" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://lh3.googleusercontent.com/d/1SnLBEcv09NjJv9AOaP8G-lL7gYHDfZwE" alt="Thiago" class="w-11 h-11 rounded-full mr-2">
-                                        Thiago
-                                    </a>
-                                    
-                                    <!-- Meios -->
-                                    <h3 class="text-lg font-bold mt-4">Meios</h3>
-                                    <a href="https://www.instagram.com/brendon_stork/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://lh3.googleusercontent.com/d/1YCuNcv0m7amKqeRd9GRHjQ0v2BP2j4_a" alt="Brendon Stork" class="w-11 h-11 rounded-full mr-2">
-                                        Brendon Stork
-                                    </a>
-                                    <a href="https://www.instagram.com/gabrielstorck_/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://lh3.googleusercontent.com/d/1TG-4wS1Melq5TFWE1bjcs2YT5NoruHfM" alt="Biel" class="w-11 h-11 rounded-full mr-2">
-                                        Gabriel Storck
-                                    </a>
-                                    <a href="https://www.instagram.com/leonardo_fl10/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://lh3.googleusercontent.com/d/1M5M1n9oJ32DFOeBHZVFc6lCwjxU8dIcn" alt="L10" class="w-11 h-11 rounded-full mr-2">
-                                        L10
-                                    </a>
-                                    
-                                    <!-- Atacantes -->
-                                    <h3 class="text-lg font-bold mt-4">Atacantes</h3>
-                                    <a href="https://www.instagram.com/brunohenrique14/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://placehold.co/32x32/gray/white?text=BT" alt="Bruno Henrique" class="w-11 h-11 rounded-full mr-2">
-                                        Bruno Henrique
-                                    </a>
-                                    <a href="https://www.instagram.com/juarezdemouragomes/?__pwa=1#" target="_blank" class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg">
-                                        <img src="https://lh3.googleusercontent.com/d/1gDEc0xlddV-jN3iu3tKkcleyj2zM88i8" alt="Juca" class="w-11 h-11 rounded-full mr-2">
-                                        Juca
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    break;
-                case 'history':
-                    contentHTML = `
-                        <div class="relative w-full">
-                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-transparent hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
-                            <div class="flex flex-col items-center">
-                                <h2 class="text-xl font-bold mb-4 text-center mt-10">História do Clube</h2>
-                                <img src="https://lh3.googleusercontent.com/d/19tMWJUs5rl403bm4Qz7R3Vep8Lg14qYV" alt="Imagem da História do Clube" class="w-full h-auto rounded-lg mb-4">
-                                <div class="space-y-4 overflow-y-auto w-full h-full">
-                                    <p class="text-gray-200"> Fundado em 1987, no Jardim John Kennedy, em Ibiporã – Paraná, o time surgiu com o nome Meninos do Kennedy, carregando a identidade e a união do bairro. Em 2015, passou por uma repaginada e adotou o nome Kendence Futebol Clube, referência direta às suas raízes.
-
-Ao longo da trajetória, o Kendence F.C. construiu respeito e tradição no futebol amador, acumulando conquistas e boas campanhas:🏆 Campeão Bronze – 2017, 🥈 Vice-Campeão Jataizinho – 2018, 🥈 Vice-Campeão Motor Parts (Prata) – 2023, 🥈 Vice-Campeão Municipal – Divisão Prata – 2024
-Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão e compromisso, sempre em busca de novas vitórias.</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    break;
-                case 'social':
-                    contentHTML = `
-                        <div class="relative w-full">
-                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-transparent hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
-                            <div class="flex flex-col items-center">
-                                <h2 class="text-xl font-bold mb-4 text-center mt-10">Redes Sociais</h2>
-                                <div class="space-y-4 w-full">
-                                    <a href="https://www.youtube.com/channel/UCVG6kWDq2JIdurnN7LIgmPQ" target="_blank" class="block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg text-center">
-                                        YouTube
-                                    </a>
-                                    <a href="https://www.instagram.com/kendence2015/?__pwa=1#" target="_blank" class="block bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg text-center">
-                                        Instagram
-                                    </a>
-                                    <button onclick="showSection('user-login')" class="block w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg text-center">
-                                        Usuário
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    break;
-                case 'gallery':
-                    // Estrutura para links diretos do Google Drive
-                    contentHTML = `
-                        <div id="galleryAlbums" class="relative w-full">
-                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
-                            <div class="flex flex-col items-center">
-                                <h2 class="text-xl font-bold mb-4 text-center mt-10">Galeria</h2>
-                                <p class="text-gray-200 text-center mb-4">Selecione uma pasta para ver as mídias (Link Google Drive).</p>
-                                <div class="space-y-4 overflow-y-auto w-full h-full">
-                                    ${galleryFolders.map(folder => `
-                                        <a href="${folder.driveLink}" target="_blank" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
-                                            <h3 class="font-bold">${folder.name}</h3>
-                                        </a>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    break;
-                case 'sponsorship':
-                    contentHTML = `
-                        <div class="relative w-full">
-                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-transparent hover:bg-gray-transparent rounded-full px-4 py-2 ml-2">← Voltar</button>
-                            <div class="flex flex-col items-center">
-                                <h2 class="text-xl font-bold mb-4 text-center mt-0"></h2>
-                                <img src="https://lh3.googleusercontent.com/d/16rqprm9c1ePfhP5BCS2FdSxO-sN8OgrJ" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
-                                <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
-                                    <h3 class="text-lg font-bold mb-2">Braza Nobre</h3>
-                                    <p class="text-white text-sm">
-                                        <strong>Endereço:</strong> Av. Ibrahim prudente da Silva 1905 - Ibiporã-PR
-                                    </p>
-                                    <p class="text-white text-sm">
-                                        <strong>Telefone:</strong> (43) 99908-9430
-                                    </p>
-                                    <a href="https://www.instagram.com/braza_nobre/#" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
-                                        Instagram
-                                    </a>
-                                </div>
-                                <h2 class="text-xl font-bold mb-4 text-center mt-10"></h2>
-                                <img src="https://lh3.googleusercontent.com/d/10lYW_LMsE6WgZSbIOLE0J2eirlmaMF8J" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
-                                <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
-                                    <h3 class="text-lg font-bold mb-2">Bichinho Chique</h3>
-                                    <p class="text-white text-sm">
-                                        <strong>Endereço:</strong> R. João Barretos 427 - Ibiporã-PR
-                                    </p>
-                                    <p class="text-white text-sm">
-                                        <strong>Telefone:</strong> (43) 3158-5656
-                                    </p>
-                                    <a href="https://www.instagram.com/bichinho_chic_petshop/#" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
-                                        Instagram
-                                    </a>
-                                </div>
-                                <h2 class="text-xl font-bold mb-4 text-center mt-10"></h2>
-                                <img src="https://lh3.googleusercontent.com/d/1auLJecFd5CuJxlzOZ0HJ6HB-_kUK9WKC" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
-                                <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
-                                    <h3 class="text-lg font-bold mb-2">Tik Dogs</h3>
-                                    <p class="text-white text-sm">
-                                        <strong>Endereço:</strong> Praça Frei Timóteo, 51 Centro - Jataizinho-PR
-                                    </p>
-                                    <p class="text-white text-sm">
-                                        <strong>Telefone:</strong> (43)3159-0091
-                                    </p>
-                                    <a href="https://www.instagram.com/tikdogsjataizinho/#" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
-                                        Instagram
-                                    </a>
-                                 </div>
-                                <h2 class="text-xl font-bold mb-4 text-center mt-10"></h2>
-                                <img src="https://lh3.googleusercontent.com/d/1zBKx8pDB208dXkx2_kOH06SeopDmQbay" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
-                                <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
-                                    <h3 class="text-lg font-bold mb-2">Gilsinho Beer </h3>
-                                    <p class="text-white text-sm">
-                                        <strong>Endereço:</strong> R. Foz do Iguaçú, Jd. John Kennedy - Ibiporã-PR,
-                                    </p>
-                                    <p class="text-white text-sm">
-                                        <strong>Telefone:</strong> (43) 99616-6692
-                                    </p>
-                                    <a href="https://www.instagram.com/gilsinhobeer/#" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
-                                        Instagram
-                                    </a>
-                                 </div>
-                                <h2 class="text-xl font-bold mb-4 text-center mt-10"></h2>
-                                <img src="https://lh3.googleusercontent.com/d/1oOvS9NjQ5hX-609-PpdP_p7mLjBh5MJG" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
-                                <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
-                                    <h3 class="text-lg font-bold mb-2">Auto Escola VEGA </h3>
-                                    <p class="text-white text-sm">
-                                        <strong>Endereço:</strong> Avenida dos Estudantes, 551, Centro - Ibiporã-PR,
-                                    </p>
-                                    <p class="text-white text-sm">
-                                        <strong>Telefone:</strong> (43) 3268-0068
-                                    </p>
-                                    <a href="https://www.instagram.com/autoescolavega/#" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
-                                        Instagram
-                                    </a>
-                                 </div>
-                                <h2 class="text-xl font-bold mb-4 text-center mt-10"></h2>
-                                <img src="https://lh3.googleusercontent.com/d/1c8hJimr2yTO8TgpWwdyIpJLDoKmgGtqD" alt="Patrocinador Kendence F.C." class="w-32 h-32 rounded-lg mb-4">
-                                <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full">
-                                    <h3 class="text-lg font-bold mb-2">Agnaldo Construção e reforma </h3>
-                                    <p class="text-white text-sm">
-                                        <strong>Endereço:</strong> R. Foz do Iguaçú, Jd. John Kennedy - Ibiporã-PR,
-                                    </p>
-                                    <p class="text-white text-sm">
-                                        <strong>Telefone:</strong> (43) 99837-7736
-                                    </p>
-                                    <a href="https://www.instagram.com/agnaldo.pereira.753329/?__pwa=1##" target="_blank" class="block w-full mt-4 bg-red-700 hover:bg-red-900 text-white font-bold py-3 px-4 rounded-lg text-center">
-                                        Instagram
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    break;
-                case 'user-login':
-                    contentHTML = `
-                        <div class="relative w-full">
-                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-transparent hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
-                            <div class="flex flex-col items-center">
-                                <h2 class="text-xl font-bold mb-4 text-center mt-10">Acesso Restrito</h2>
-                                <form onsubmit="handleLogin(event)" class="space-y-4 w-full">
-                                    <input type="text" id="username" placeholder="Login" class="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <input type="password" id="password" placeholder="Senha" class="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg">Entrar</button>
-                                </form>
-                                <div id="loginMessage" class="mt-4 text-center"></div>
-                            </div>
-                        </div>
-                    `;
-                    break;
-                case 'fullNews':
-                     contentHTML = `
-                        <div class="relative w-full">
-                            <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
-                            <div class="flex flex-col items-center">
-                                <h2 class="text-xl font-bold mb-4 text-center mt-10">Notícias Completas</h2>
-                                <div class="space-y-6 w-full">
-                                    <!-- Conteúdo será injetado aqui pelo JavaScript -->
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    break;
-            }
-
-            if (section === 'fullNews') {
-                sectionsContainer.innerHTML = contentHTML;
-                renderNews('sectionsContainer', 0);
-            } else {
-                sectionsContainer.innerHTML = contentHTML;
-            }
-        }
-
+        
         function handleLogin(event) {
             event.preventDefault();
             const username = document.getElementById('username').value;
@@ -803,102 +857,6 @@ Hoje, o Kendence segue representando o bairro John Kennedy com orgulho, paixão 
                 loginMessage.innerHTML = '<p class="text-red-500 font-bold">Login ou senha incorretos.</p>';
             }
         }
-        
-        // Funções para a Galeria interna
-        let currentAlbum = '';
-
-        function showAlbum(albumName) {
-            const sectionsContainer = document.getElementById('sectionsContainer');
-            currentAlbum = albumName;
-            
-            const albumContent = galleryData[albumName].map(item => {
-                if (item.type === 'image') {
-                    return `
-                        <img src="${item.url}" onclick="showFullScreen('${item.url}')" class="w-full h-auto rounded-lg mb-2 cursor-pointer object-cover aspect-square">
-                    `;
-                } else if (item.type === 'video') {
-                     return `
-                        <video src="${item.url}" onclick="showFullScreen('${item.url}')" class="w-full h-auto rounded-lg mb-2 cursor-pointer object-cover aspect-square" controls></video>
-                    `;
-                }
-            }).join('');
-            
-            sectionsContainer.innerHTML = `
-                <div id="albumContainer" class="relative w-full h-full p-4">
-                    <button onclick="backToGallery()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
-                    <div class="flex flex-col items-center">
-                        <h2 class="text-xl font-bold mb-4 text-center mt-10">${albumName}</h2>
-                        <div class="grid grid-cols-2 gap-4 w-full overflow-y-auto">
-                            ${albumContent}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function showFullScreen(url) {
-            const sectionsContainer = document.getElementById('sectionsContainer');
-            const sectionsContent = sectionsContainer.innerHTML;
-            sectionsContainer.classList.add('hide-on-click');
-
-            const fullScreenView = document.createElement('div');
-            fullScreenView.id = 'fullScreenView';
-            fullScreenView.classList.add('fixed', 'top-0', 'left-0', 'w-full', 'h-full', 'bg-black', 'bg-opacity-90', 'flex', 'items-center', 'justify-center', 'z-50');
-            fullScreenView.onclick = () => {
-                fullScreenView.remove();
-                sectionsContainer.classList.remove('hide-on-click');
-            };
-
-            let mediaHTML = '';
-            const mediaType = url.includes('.mp4') || url.includes('.mov') || url.includes('video') ? 'video' : 'image';
-            if (mediaType === 'image') {
-                mediaHTML = `<img src="${url}" class="max-w-full max-h-full object-contain">`;
-            } else {
-                mediaHTML = `<video src="${url}" class="max-w-full max-h-full object-contain" controls autoplay></video>`;
-            }
-
-            fullScreenView.innerHTML = `
-                <div class="relative w-full h-full flex items-center justify-center">
-                    ${mediaHTML}
-                    <button onclick="event.stopPropagation(); backToAlbum()" class="absolute top-4 left-4 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2">← Voltar</button>
-                </div>
-            `;
-            
-            document.body.appendChild(fullScreenView);
-        }
-
-        function backToAlbum() {
-            const fullScreenView = document.getElementById('fullScreenView');
-            if (fullScreenView) {
-                fullScreenView.remove();
-            }
-            document.getElementById('sectionsContainer').classList.remove('hide-on-click');
-        }
-
-        function backToGallery() {
-            const sectionsContainer = document.getElementById('sectionsContainer');
-            const galleryContent = `
-                <div id="galleryAlbums" class="relative w-full">
-                    <button onclick="backToNewsScreen()" class="absolute top-0 left-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full px-4 py-2 ml-2">← Voltar</button>
-                    <div class="flex flex-col items-center">
-                        <h2 class="text-xl font-bold mb-4 text-center mt-10">Galeria</h2>
-                        <p class="text-gray-200 text-center mb-4">Selecione uma pasta para ver as mídias.</p>
-                        <div class="space-y-4 overflow-y-auto w-full h-full">
-                            ${galleryFolders.map(folder => `
-                                <a href="${folder.driveLink}" target="_blank" class="block w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg text-center">
-                                    <h3 class="font-bold">${folder.name}</h3>
-                                </a>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-            sectionsContainer.innerHTML = galleryContent;
-        }
-
-        
     </script>
 </body>
 </html>
-
-
