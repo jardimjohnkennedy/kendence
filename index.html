@@ -136,6 +136,37 @@
             font-size: 0.75rem; /* text-xs */
             color: white;
         }
+        /* NOVO: Estilo para o widget flutuante do Android (Lado Esquerdo) */
+        .android-widget {
+            position: fixed;
+            bottom: 20px;
+            left: 20px; /* Posicionamento no lado esquerdo */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            z-index: 40;
+        }
+        .android-btn {
+            background-color: #48C774; /* Cor da Play Store */
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s;
+        }
+        .android-btn:hover {
+            transform: scale(1.1);
+        }
+        .android-text {
+            margin-top: 4px;
+            font-size: 0.75rem; /* text-xs */
+            color: white;
+        }
         .back-btn-container {
             position: absolute;
             top: 1rem; /* Ajuste para espaçamento do topo */
@@ -153,6 +184,15 @@
             <img src="https://lh3.googleusercontent.com/d/15O9GrJXb2wUYA_6bnJvK4CgVFxw0wY5y" alt="WhatsApp Icon" class="w-8 h-8 object-contain">
         </a>
         <span class="whatsapp-text">Contato</span>
+    </div>
+
+    <!-- NOVO: Widget Flutuante do Android (Ícone + Texto) -->
+    <div class="android-widget">
+        <a href="https://drive.google.com/file/d/1qBB8JcnsnT99cPWLvD-GVgq8BrycJBP_/view" target="_blank" class="android-btn">
+             <!-- Ícone Play Store de Placeholder: substitua pelo ícone do seu app se quiser -->
+            <img src="https://lh3.googleusercontent.com/d/1aZJ70OSPlZo40RM1VkiyertZ-JeBlRFR" alt="App Icon" class="w-11 h-11 object-contain">
+        </a>
+        <span class="android-text">APP Android</span>
     </div>
 
     <!-- Tela de Carregamento (Splash Screen) -->
@@ -308,6 +348,7 @@
         // Dados de Próximos Jogos e Resultados Recentes
         const upcomingGamesData = [
             { date: '12/10 - 09:00', teams: 'Inter Santa Paula vs. Kendence', location: 'Campeonato Puro Sangue - Estrela 1', mapLink: 'https://maps.app.goo.gl/N4gLvagyD7w6HGrA9' },
+
         ];
 
         const recentResultsData = [
