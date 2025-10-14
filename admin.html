@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Kendence F.C.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #1a202c; color: white; }
+        .form-section, .backup-section { background-color: #2d3748; padding: 2rem; border-radius: 0.5rem; margin-bottom: 2rem; }
+        .form-input { background-color: #4a5568; border: 1px solid #718096; color: white; border-radius: 0.375rem; }
+        /* Adicionado para inputs de data e hora terem o ícone branco */
+        .form-input::-webkit-calendar-picker-indicator { filter: invert(1); }
+        .btn { padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
+        .btn-primary { background-color: #4299e1; color: white; }
+        .btn-primary:hover { background-color: #2b6cb0; }
+        .btn-danger { background-color: #e53e3e; color: white; }
+        .btn-danger:hover { background-color: #c53030; }
+        .btn-secondary { background-color: #718096; color: white; }
+        .btn-secondary:hover { background-color: #4a5568; }
+        .btn-success { background-color: #38a169; color: white; }
+        .btn-success:hover { background-color: #2f855a; }
+        #data-display { max-height: 400px; overflow-y: auto; background-color: #1a202c; padding: 1rem; border-radius: 0.5rem; border: 1px solid #4a5568; }
+    </style>
+</head>
+<body class="p-8 font-sans">
+
+    <h1 class="text-4xl font-bold text-center mb-8">Painel de Administração - Kendence F.C.</h1>
+
+    <div class="backup-section text-center">
+        <h2 class="text-2xl font-bold mb-4">Backup e Restauração</h2>
+        <p class="text-sm text-gray-400 mb-4">Faça backup de todos os dados ou restaure a partir de um arquivo .json.</p>
+        <div class="flex justify-center space-x-4">
+            <button onclick="backupData()" class="btn btn-success">Fazer Backup</button>
+            <button onclick="triggerRestore()" class="btn btn-danger">Restaurar Backup</button>
+            <input type="file" id="restore-file-input" class="hidden" accept=".json" onchange="restoreData(event)">
+        </div>
+    </div>
+
+    <div class="mb-8">
+        <label for="section-select" class="block mb-2 text-lg font-medium">Selecione a área para gerenciar:</label>
+        <select id="section-select" class="form-input w-full p-3" onchange="showForm(this.value)">
+            <option value="upcomingGames">Próximos Jogos</option>
+            <option value="recentResults">Resultados Recentes</option>
+            <option value="news">Notícias</option>
+            <option value="players">Jogadores</option>
+            <option value="sponsors">Patrocinadores</option>
+        </select>
+    </div>
+
+    <div id="forms-container">
+        <div id="form-upcomingGames" class="form-section">
+            <h2 class="text-2xl font-bold mb-4">Gerenciar Próximos Jogos</h2>
+            <form id="upcomingGames-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="hidden" id="upcomingGames-id">
+                <div>
+                    <label for="upcomingGames-date-input" class="block text-sm font-medium mb-1">Data do Jogo</label>
+                    <input type="date" id="upcomingGames-date-input" class="form-input p-2 w-full" required>
+                </div>
+                <div>
+                    <label for="upcomingGames-time-input" class="block text-sm font-medium mb-1">Hora do Jogo</label>
+                    <input type="time" id="upcomingGames-time-input" class="form-input p-2 w-full" required>
+                </div>
+                <input type="text" id="upcomingGames-teams" placeholder="Times (ex: Kendence vs. Time B)" class="form-input p-2" required>
+                <input type="text" id="upcomingGames-location" placeholder="Nome do Campo" class="form-input p-2" required>
+                <input type="url" id="upcomingGames-mapLink" placeholder="Link do Google Maps" class="form-input p-2 col-span-1 md:col-span-2" required>
+                <div class="col-span-1 md:col-span-2 flex space-x-2">
+                    <button type="submit" class="btn btn-primary">Adicionar / Salvar</button>
+                    <button type="button" onclick="clearForm('upcomingGames')" class="btn btn-secondary">Limpar</button>
+                </div>
+            </form>
+        </div>
+        <div id="form-recentResults" class="form-section hidden">
+            <h2 class="text-2xl font-bold mb-4">Gerenciar Resultados Recentes</h2>
+            <form id="recentResults-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="hidden" id="recentResults-id">
+                 <div>
+                    <label for="recentResults-date-input" class="block text-sm font-medium mb-1">Data do Jogo</label>
+                    <input type="date" id="recentResults-date-input" class="form-input p-2 w-full" required>
+                </div>
+                <div>
+                    <label for="recentResults-time-input" class="block text-sm font-medium mb-1">Hora do Jogo</label>
+                    <input type="time" id="recentResults-time-input" class="form-input p-2 w-full" required>
+                </div>
+                <input type="text" id="recentResults-match" placeholder="Resultado (ex: Kendence 3 x 2 Time B)" class="form-input p-2" required>
+                <input type="text" id="recentResults-location" placeholder="Nome do Campo" class="form-input p-2" required>
+                <input type="url" id="recentResults-videoLink" placeholder="Link para Fotos/Vídeos" class="form-input p-2 col-span-1 md:col-span-2" required>
+                <div class="col-span-1 md:col-span-2 flex space-x-2">
+                    <button type="submit" class="btn btn-primary">Adicionar / Salvar</button>
+                    <button type="button" onclick="clearForm('recentResults')" class="btn btn-secondary">Limpar</button>
+                </div>
+            </form>
+        </div>
+        
+        <div id="form-news" class="form-section hidden">
+            <h2 class="text-2xl font-bold mb-4">Gerenciar Notícias</h2>
+            <form id="news-form" class="grid grid-cols-1 gap-4">
+                <input type="hidden" id="news-id">
+                <input type="date" id="news-date" class="form-input p-2" required>
+                <input type="text" id="news-title" placeholder="Título da Notícia" class="form-input p-2" required>
+                <input type="url" id="news-image" placeholder="Cole o Endereço HTML da Imagem aqui" class="form-input p-2" required>
+                <textarea id="news-text" placeholder="Texto da Notícia" rows="5" class="form-input p-2" required></textarea>
+                <div class="flex space-x-2">
+                    <button type="submit" class="btn btn-primary">Adicionar / Salvar</button>
+                    <button type="button" onclick="clearForm('news')" class="btn btn-secondary">Limpar</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="form-players" class="form-section hidden">
+            <h2 class="text-2xl font-bold mb-4">Gerenciar Jogadores e Comissão</h2>
+            <form id="players-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="hidden" id="players-id">
+                <input type="text" id="players-name" placeholder="Nome do Jogador" class="form-input p-2" required>
+                 <select id="players-role" class="form-input p-2" required>
+                    <option value="">Selecione a Função</option>
+                    <option value="Comissão Técnica">Técnico / Comissão</option>
+                    <option value="Goleiros">Goleiro</option>
+                    <option value="Zagueiros e Volantes">Zagueiro e Volante</option>
+                    <option value="Laterais">Lateral</option>
+                    <option value="Meios">Meio-Campo</option>
+                    <option value="Atacantes">Atacante</option>
+                </select>
+                <input type="url" id="players-image" placeholder="Cole o Endereço HTML da Foto do Jogador" class="form-input p-2 col-span-1 md:col-span-2" required>
+                <input type="url" id="players-instagram" placeholder="Link do Instagram" class="form-input p-2 col-span-1 md:col-span-2" required>
+                <div class="col-span-1 md:col-span-2 flex space-x-2">
+                    <button type="submit" class="btn btn-primary">Adicionar / Salvar</button>
+                    <button type="button" onclick="clearForm('players')" class="btn btn-secondary">Limpar</button>
+                </div>
+            </form>
+        </div>
+        
+        <div id="form-sponsors" class="form-section hidden">
+            <h2 class="text-2xl font-bold mb-4">Gerenciar Patrocinadores</h2>
+            <form id="sponsors-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="hidden" id="sponsors-id">
+                <input type="text" id="sponsors-name" placeholder="Nome do Patrocinador" class="form-input p-2" required>
+                <input type="text" id="sponsors-address" placeholder="Endereço" class="form-input p-2" required>
+                <input type="tel" id="sponsors-phone" placeholder="Telefone" class="form-input p-2" required>
+                <input type="url" id="sponsors-image" placeholder="Cole o Endereço HTML da Logo" class="form-input p-2 col-span-1 md:col-span-2" required>
+                <input type="url" id="sponsors-instagram" placeholder="Link do Instagram" class="form-input p-2 col-span-1 md:col-span-2" required>
+                 <div class="col-span-1 md:col-span-2 flex space-x-2">
+                    <button type="submit" class="btn btn-primary">Adicionar / Salvar</button>
+                    <button type="button" onclick="clearForm('sponsors')" class="btn btn-secondary">Limpar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <h3 class="text-2xl font-bold mb-4 mt-8">Dados Atuais</h3>
+    <div id="data-display" class="space-y-2">Carregando dados...</div>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getDatabase, ref, onValue, push, set, remove, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCnvY_DB4iV0fCf-WUGSsdrKG9EBvqfcZg",
+            authDomain: "kendencefc.firebaseapp.com",
+            projectId: "kendencefc",
+            storageBucket: "kendencefc.appspot.com",
+            messagingSenderId: "879233429651",
+            appId: "1:879233429651:web:afc2184c43bfd3dc9a1d66",
+            measurementId: "G-7SRD00WHGL"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        let currentSection = 'upcomingGames';
+
+        // Mapeamento de seções e campos
+        const sections = {
+            upcomingGames: { dbRef: 'upcomingGames', formId: 'upcomingGames-form' },
+            recentResults: { dbRef: 'recentResults', formId: 'recentResults-form' },
+            news:          { dbRef: 'news', formId: 'news-form' },
+            players:       { dbRef: 'players', formId: 'players-form' },
+            sponsors:      { dbRef: 'sponsors', formId: 'sponsors-form' }
+        };
+        
+        // --- FUNÇÕES GLOBAIS (PARA ONCLICK) ---
+        window.showForm = (sectionName) => {
+            currentSection = sectionName;
+            document.querySelectorAll('.form-section').forEach(form => form.classList.add('hidden'));
+            document.getElementById(`form-${sectionName}`).classList.remove('hidden');
+            fetchData();
+            clearForm(currentSection);
+        };
+
+        window.clearForm = (sectionName) => {
+            document.getElementById(sections[sectionName].formId).reset();
+            document.getElementById(`${sectionName}-id`).value = '';
+        };
+
+        window.editItem = async (key) => {
+            const section = sections[currentSection];
+            const snapshot = await get(ref(database, `${section.dbRef}/${key}`));
+            if (!snapshot.exists()) return;
+            const data = snapshot.val();
+            document.getElementById(`${currentSection}-id`).value = key;
+            
+            // Popula todos os campos do formulário
+            const formElements = document.getElementById(section.formId).elements;
+            for (const element of formElements) {
+                if (element.id && data[element.name]) {
+                    element.value = data[element.name];
+                }
+            }
+
+            // Lógica especial para separar data e hora
+            if (data.date && (currentSection === 'upcomingGames' || currentSection === 'recentResults')) {
+                const dateObj = new Date(data.date);
+                document.getElementById(`${currentSection}-date-input`).value = dateObj.toISOString().split('T')[0];
+                document.getElementById(`${currentSection}-time-input`).value = dateObj.toTimeString().split(' ')[0].substring(0, 5);
+            }
+            window.scrollTo(0, 0);
+        };
+        
+        window.deleteItem = (key) => {
+            if (confirm('Tem certeza que deseja excluir este item?')) {
+                remove(ref(database, `${sections[currentSection].dbRef}/${key}`))
+                    .then(() => alert('Item excluído com sucesso!'))
+                    .catch(error => alert(error.message));
+            }
+        };
+        
+        // --- FUNÇÕES DE BACKUP E RESTAURAÇÃO ---
+        window.backupData = async () => { /* ... sem alterações aqui ... */ };
+        window.triggerRestore = () => document.getElementById('restore-file-input').click();
+        window.restoreData = (event) => { /* ... sem alterações aqui ... */ };
+        
+        // --- FUNÇÕES INTERNAS ---
+        function fetchData() { /* ... sem alterações aqui ... */ }
+        
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const section = sections[currentSection];
+            const form = event.target;
+            const id = form.elements[`${currentSection}-id`].value;
+
+            const data = {};
+            // Pega todos os campos do formulário e cria um objeto
+            for (const element of form.elements) {
+                if (element.name) {
+                    data[element.name] = element.value;
+                }
+            }
+            
+            // Lógica para combinar data e hora em um único campo 'date'
+            if (currentSection === 'upcomingGames' || currentSection === 'recentResults') {
+                const dateValue = form.elements[`${currentSection}-date-input`].value;
+                const timeValue = form.elements[`${currentSection}-time-input`].value;
+                if (dateValue && timeValue) {
+                    data.date = new Date(`${dateValue}T${timeValue}`).toISOString();
+                }
+                delete data[`${currentSection}-date-input`]; // Remove campos auxiliares
+                delete data[`${currentSection}-time-input`];
+            }
+
+            const dataRef = id ? ref(database, `${section.dbRef}/${id}`) : ref(database, section.dbRef);
+            const action = id ? set(dataRef, data) : push(dataRef, data);
+
+            action.then(() => alert(`Dados ${id ? 'atualizados' : 'adicionados'} com sucesso!`))
+                  .catch(error => alert(error.message))
+                  .finally(() => clearForm(currentSection));
+        }
+        
+        // Atribuição de nomes aos inputs para facilitar a coleta de dados
+        function setupFormNames() {
+            Object.keys(sections).forEach(sectionName => {
+                const form = document.getElementById(sections[sectionName].formId);
+                for (const element of form.elements) {
+                    if (element.id && !element.name) {
+                        // Extrai o nome do campo a partir do id (ex: 'news-title' -> 'title')
+                        element.name = element.id.replace(`${sectionName}-`, '').replace('-input', '');
+                    }
+                }
+            });
+        }
+        
+        // --- INICIALIZAÇÃO ---
+        window.onload = () => {
+            // Re-declaração das funções de backup para o escopo correto do onload
+            window.backupData = async () => { try { const snapshot = await get(ref(database)); if (!snapshot.exists()) { alert("Nenhum dado para fazer backup."); return; } const data = snapshot.val(); const jsonData = JSON.stringify(data, null, 2); const blob = new Blob([jsonData], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; const date = new Date().toISOString().slice(0, 10); a.download = `backup-kendencefc-${date}.json`; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); } catch (error) { alert("Erro ao fazer backup: " + error.message); } };
+            window.restoreData = (event) => { const file = event.target.files[0]; if (!file) return; if (!confirm("ATENÇÃO: Isso irá substituir TODOS os dados atuais. Deseja continuar?")) { event.target.value = ''; return; } const reader = new FileReader(); reader.onload = (e) => { try { const jsonData = JSON.parse(e.target.result); set(ref(database), jsonData).then(() => alert("Backup restaurado com sucesso! A página será recarregada.")).then(() => location.reload()).catch(error => alert("Erro ao restaurar: " + error.message)); } catch (error) { alert("Erro: O arquivo selecionado não é um JSON válido."); } finally { event.target.value = ''; } }; reader.readAsText(file); };
+            
+            fetchData = () => { const dataRef = ref(database, sections[currentSection].dbRef); const display = document.getElementById('data-display'); display.innerHTML = 'Carregando...'; onValue(dataRef, (snapshot) => { display.innerHTML = ''; const data = snapshot.val(); if (data) { let items = Object.entries(data); if (items.length > 0 && items[0][1].date) { items.sort(([, a], [, b]) => new Date(b.date) - new Date(a.date)); } items.forEach(([key, item]) => { const title = item.title || item.teams || item.match || item.name; const itemDiv = document.createElement('div'); itemDiv.className = 'bg-gray-700 p-3 rounded flex justify-between items-center'; itemDiv.innerHTML = `<span>${title}</span><div><button onclick="editItem('${key}')" class="btn btn-secondary py-1 px-2 text-sm">Editar</button><button onclick="deleteItem('${key}')" class="btn btn-danger py-1 px-2 text-sm">Excluir</button></div>`; display.appendChild(itemDiv); }); } else { display.innerHTML = '<p>Nenhum dado encontrado.</p>'; } }); };
+
+            setupFormNames();
+            Object.keys(sections).forEach(key => {
+                document.getElementById(sections[key].formId).addEventListener('submit', handleFormSubmit);
+            });
+
+            showForm(currentSection);
+        };
+    </script>
+</body>
+</html>
